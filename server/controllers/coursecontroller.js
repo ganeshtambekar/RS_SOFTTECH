@@ -1,4 +1,4 @@
-const Course = require('../models/Course');
+const Course = require('../models/courses');
 
 exports.getCourses = async (req, res) => {
   try {
@@ -15,7 +15,7 @@ exports.createCourse = async (req, res) => {
   try {
     const course = await Course.create({
       ...req.body,
-      instructor: req.user.id
+       instructor: req.user.id
     });
     
     res.status(201).json({ success: true, data: course });
