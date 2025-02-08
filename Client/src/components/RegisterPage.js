@@ -2,7 +2,7 @@ import React from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { UserPlus, Mail, Lock, User } from 'lucide-react';
-
+import config from '../config/config';
 const RegisterPage = () => {
   // Validation Schema
   const validationSchema = Yup.object({
@@ -39,6 +39,8 @@ const RegisterPage = () => {
     validationSchema: validationSchema,
     onSubmit: (values) => {
       // Implement registration logic
+
+      
       console.log('Registration Submitted:', values);
     }
   });

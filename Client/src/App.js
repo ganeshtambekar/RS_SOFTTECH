@@ -12,6 +12,7 @@ import routes from './constants/routes';
 import ContactPage from './components/ContactPage';
 import Login from './components/Login';
 import RegisterPage from './components/RegisterPage';
+import AdminDashboard from './components/AdminDashboard';
 const App = () => (
   <Router>
     <Navbar />
@@ -23,6 +24,7 @@ const App = () => (
       <Route path={routes.courses} element={<Courses/>}/>
       <Route path={routes.corporate} element={<Corporate/>}/>
       <Route path={routes.register} element={<RegisterPage />} />
+      <Route path={routes.admin} element={<AdminDashboard/>}/>
     </Routes>
   </Router>
 );

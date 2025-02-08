@@ -1,28 +1,19 @@
 const jwt = require('jsonwebtoken');
 
-exports.protect = async (req, res, next) => {
-  let token;
-  if(req.headers.authorization?.startsWith('Bearer')) {
-    token = req.headers.authorization.split(' ')[1];
+const authMiddleware = (req, res, next) => {
+  const token = req.header('Authorization')?.replace('Bearer ', '');
+
+  if (!token) {
+    return res.status(401).json({ message: 'No token, authorization denied' });
   }
-  
-  if(!token) return res.status(401).json({ success: false, error: 'Not authorized' });
 
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    req.user = await User.findById(decoded.id);
+    req.user = decoded;
     next();
-  } catch (err) {
-    res.status(401).json({ success: false, error: 'Invalid token' });
+  } catch (error) {
+    res.status(401).json({ message: 'Token is not valid' });
   }
 };
 
-exports.authorize = (...roles) => (req, res, next) => {
-  if(!roles.includes(req.user.role)) {
-    return res.status(403).json({ 
-      success: false, 
-      error: `User role ${req.user.role} is unauthorized` 
-    });
-  }
-  next();
-};
+module.exports = authMiddleware;

@@ -6,6 +6,7 @@ const routes = {
     register: '/RegisterPage',
     courses:'/Courses',
     corporate:'/Corporate',
+    admin:'/AdminDashboard',
 
   };
   
