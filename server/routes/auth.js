@@ -10,6 +10,7 @@ const validateAuth = [
   body('password').isLength({ min: 6 }),
 ];
 
+// Register Route
 router.post('/register', validateAuth, async (req, res) => {
   try {
     const errors = validationResult(req);
@@ -18,8 +19,8 @@ router.post('/register', validateAuth, async (req, res) => {
     }
 
     const { email, password, name } = req.body;
+    let user = await User.findOne({ email });
 
-    let user = await User.findOne({ email});
     if (user) {
       return res.status(400).json({ message: 'User already exists' });
     }
@@ -34,22 +35,16 @@ router.post('/register', validateAuth, async (req, res) => {
 
     await user.save();
 
-    const token = jwt.sign(
-      { userId: user.id },
-      process.env.JWT_SECRET,
-      { expiresIn: '24h' }
-    );
+    const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET, { expiresIn: '24h' });
 
-    res.status(201).json({
-      message: 'User created successfully',
-      token
-    });
+    res.status(201).json({ message: 'User created successfully', token });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Server error' });
   }
 });
 
+// Login Route
 router.post('/login', validateAuth, async (req, res) => {
   try {
     const errors = validationResult(req);
@@ -58,8 +53,8 @@ router.post('/login', validateAuth, async (req, res) => {
     }
 
     const { email, password } = req.body;
-
     const user = await User.findOne({ email });
+
     if (!user) {
       return res.status(401).json({ message: 'Invalid credentials' });
     }
@@ -69,16 +64,9 @@ router.post('/login', validateAuth, async (req, res) => {
       return res.status(401).json({ message: 'Invalid credentials' });
     }
 
-    const token = jwt.sign(
-      { userId: user.id },
-      process.env.JWT_SECRET,
-      { expiresIn: '24h' }
-    );
+    const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET, { expiresIn: '24h' });
 
-    res.json({
-      message: 'Login successful',
-      token
-    });
+    res.json({ message: 'Login successful', token });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Server error' });
