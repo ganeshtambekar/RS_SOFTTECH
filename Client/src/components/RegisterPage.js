@@ -1,17 +1,16 @@
 import React from 'react';
+import axios from 'axios';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { UserPlus, Mail, Lock, User } from 'lucide-react';
 import config from '../config/config';
+
 const RegisterPage = () => {
   // Validation Schema
   const validationSchema = Yup.object({
-    firstName: Yup.string()
-      .required('First Name is required')
-      .min(2, 'First Name must be at least 2 characters'),
-    lastName: Yup.string()
-      .required('Last Name is required')
-      .min(2, 'Last Name must be at least 2 characters'),
+    name: Yup.string()
+      .required('Name is required')
+      .min(2, 'Name must be at least 2 characters'),
     email: Yup.string()
       .email('Invalid email address')
       .required('Email is required'),
@@ -30,18 +29,29 @@ const RegisterPage = () => {
   // Formik Form Handling
   const formik = useFormik({
     initialValues: {
-      firstName: '',
-      lastName: '',
+      name: '',
       email: '',
       password: '',
       confirmPassword: ''
     },
     validationSchema: validationSchema,
-    onSubmit: (values) => {
-      // Implement registration logic
-
-      
-      console.log('Registration Submitted:', values);
+    onSubmit: async (values) => {
+      try {
+        const response = await axios.post('http://localhost:4000/api/register', {
+          name: values.name,
+          email: values.email,
+          password: values.password
+        });
+        
+        console.log('Registration successful:', response.data);
+        // Handle successful registration (e.g., show success message, redirect)
+        
+      } catch (error) {
+        console.error('Registration failed:', error);
+        if (error.response) {
+          console.log('Error data:', error.response.data);
+        }
+      }
     }
   });
 
@@ -64,68 +74,35 @@ const RegisterPage = () => {
           className="mt-8 space-y-6" 
           onSubmit={formik.handleSubmit}
         >
-          <div className="grid grid-cols-2 gap-4">
-            {/* First Name Input */}
-            <div>
-              <label htmlFor="firstName" className="sr-only">
-                First Name
-              </label>
-              <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <User className="h-5 w-5 text-gray-400" />
-                </div>
-                <input
-                  id="firstName"
-                  name="firstName"
-                  type="text"
-                  placeholder="First Name"
-                  className={`appearance-none rounded-md relative block w-full px-3 py-2 pl-10 border ${
-                    formik.touched.firstName && formik.errors.firstName
-                      ? 'border-red-500'
-                      : 'border-gray-300'
-                  } placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-blue-500 focus:border-blue-500`}
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                  value={formik.values.firstName}
-                />
+          {/* Name Input */}
+          <div>
+            <label htmlFor="name" className="sr-only">
+              Full Name
+            </label>
+            <div className="relative">
+              <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                <User className="h-5 w-5 text-gray-400" />
               </div>
-              {formik.touched.firstName && formik.errors.firstName && (
-                <p className="mt-2 text-sm text-red-600">
-                  {formik.errors.firstName}
-                </p>
-              )}
+              <input
+                id="name"
+                name="name"
+                type="text"
+                placeholder="Full Name"
+                className={`appearance-none rounded-md relative block w-full px-3 py-2 pl-10 border ${
+                  formik.touched.name && formik.errors.name
+                    ? 'border-red-500'
+                    : 'border-gray-300'
+                } placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-blue-500 focus:border-blue-500`}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                value={formik.values.name}
+              />
             </div>
-
-            {/* Last Name Input */}
-            <div>
-              <label htmlFor="lastName" className="sr-only">
-                Last Name
-              </label>
-              <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <User className="h-5 w-5 text-gray-400" />
-                </div>
-                <input
-                  id="lastName"
-                  name="lastName"
-                  type="text"
-                  placeholder="Last Name"
-                  className={`appearance-none rounded-md relative block w-full px-3 py-2 pl-10 border ${
-                    formik.touched.lastName && formik.errors.lastName
-                      ? 'border-red-500'
-                      : 'border-gray-300'
-                  } placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-blue-500 focus:border-blue-500`}
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                  value={formik.values.lastName}
-                />
-              </div>
-              {formik.touched.lastName && formik.errors.lastName && (
-                <p className="mt-2 text-sm text-red-600">
-                  {formik.errors.lastName}
-                </p>
-              )}
-            </div>
+            {formik.touched.name && formik.errors.name && (
+              <p className="mt-2 text-sm text-red-600">
+                {formik.errors.name}
+              </p>
+            )}
           </div>
 
           {/* Email Input */}
@@ -251,3 +228,6 @@ const RegisterPage = () => {
 };
 
 export default RegisterPage;
+
+
+

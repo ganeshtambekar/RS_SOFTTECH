@@ -45,7 +45,8 @@ router.post('/register', validateAuth, async (req, res) => {
 });
 
 // Login Route
-router.post('/login', validateAuth, async (req, res) => {
+router.post('/login', async (req, res) => {
+  console.log(req.body)
   try {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {

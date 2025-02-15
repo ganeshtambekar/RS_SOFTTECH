@@ -13,6 +13,7 @@ import ContactPage from './components/ContactPage';
 import Login from './components/Login';
 import RegisterPage from './components/RegisterPage';
 import AdminDashboard from './components/AdminDashboard';
+import StudentDashboard from './components/StudentDashboard';
 const App = () => (
   <Router>
     <Navbar />
@@ -23,8 +24,13 @@ const App = () => (
       <Route path={routes.login} element={<Login />} />
       <Route path={routes.courses} element={<Courses/>}/>
       <Route path={routes.corporate} element={<Corporate/>}/>
-      <Route path={routes.register} element={<RegisterPage />} />
+      <Route path={routes.register} element={<RegisterPage />}/>
       <Route path={routes.admin} element={<AdminDashboard/>}/>
+      <Route path={routes.student} element={<StudentDashboard/>}/>
+
+
+
+
     </Routes>
   </Router>
 );

@@ -4,7 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
 import { Alert, AlertDescription } from "./ui/alert";
 import { Book, Calendar, GraduationCap, LogOut } from 'lucide-react';
 import config from '../config/config';
-const StudentDashboard = () => {
+const  StudentDashboard = () => {
   const [studentData, setStudentData] = useState({
     enrolledCourses: [],
     testResults: []

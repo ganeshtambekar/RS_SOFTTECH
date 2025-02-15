@@ -1,26 +1,25 @@
-import React, { useState } from 'react';
-import { Send, MapPin, Phone, Mail } from 'lucide-react';
+import React, { useState } from "react";
+import { Send, MapPin, Phone, Mail } from "lucide-react";
 
 const ContactPage = () => {
   const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    phone: '',
-    message: ''
+    name: "",
+    email: "",
+    phone: "",
+    message: "",
   });
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData(prevState => ({
+    setFormData((prevState) => ({
       ...prevState,
-      [name]: value
+      [name]: value,
     }));
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Implement form submission logic
-    console.log('Form submitted:', formData);
+    console.log("Form submitted:", formData);
   };
 
   return (
@@ -29,14 +28,19 @@ const ContactPage = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
           {/* Contact Information */}
           <div className="bg-white rounded-lg shadow-lg p-8">
-            <h2 className="text-3xl font-bold mb-6 text-gray-800">Contact Information</h2>
-            
+            <h2 className="text-3xl font-bold mb-6 text-gray-800">
+              Contact Information
+            </h2>
+
             <div className="space-y-6">
               <div className="flex items-center space-x-4">
                 <MapPin className="w-6 h-6 text-blue-600" />
                 <div>
                   <h3 className="font-semibold">Address</h3>
-                  <p className="text-gray-600">123 Tech Street, Innovation Park, City, Country</p>
+                  <p className="text-gray-600">
+                    RS Softech, Office No.3, 4th Floor, Bhosale-Shinde Arcade,
+                    JM Road, Deccan, Shivaji Nagar, Pune 411004.
+                  </p>
                 </div>
               </div>
 
@@ -44,7 +48,7 @@ const ContactPage = () => {
                 <Phone className="w-6 h-6 text-blue-600" />
                 <div>
                   <h3 className="font-semibold">Phone</h3>
-                  <p className="text-gray-600">+1 (555) 123-4567</p>
+                  <p className="text-gray-600">+91 9923456019</p>
                 </div>
               </div>
 
@@ -57,19 +61,29 @@ const ContactPage = () => {
               </div>
             </div>
 
-            {/* Google Maps Placeholder */}
-            <div className="mt-8 bg-gray-200 h-64 rounded-lg flex items-center justify-center">
-              Google Maps Integration Placeholder
+            {/* Google Maps Embed */}
+            <div className="mt-8 bg-gray-200 h-64 rounded-lg overflow-hidden shadow-lg">
+              <iframe
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1891.6288592550488!2d73.84226487229229!3d18.517252400000007!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bc2b9def03dcfbb%3A0x426a5a51c3a72bde!2sRS%20Softtech!5e0!3m2!1smr!2sin!4v1739594187532!5m2!1smr!2sin"
+                className="w-full h-full border-0"
+                allowFullScreen
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+              ></iframe>
             </div>
           </div>
 
           {/* Contact Form */}
           <div className="bg-white rounded-lg shadow-lg p-8">
-            <h2 className="text-3xl font-bold mb-6 text-gray-800">Send Us a Message</h2>
-            
+            <h2 className="text-3xl font-bold mb-6 text-gray-800">
+              Send Us a Message
+            </h2>
+
             <form onSubmit={handleSubmit} className="space-y-6">
               <div>
-                <label className="block text-gray-700 font-semibold mb-2">Full Name</label>
+                <label className="block text-gray-700 font-semibold mb-2">
+                  Full Name
+                </label>
                 <input
                   type="text"
                   name="name"
@@ -81,7 +95,9 @@ const ContactPage = () => {
               </div>
 
               <div>
-                <label className="block text-gray-700 font-semibold mb-2">Email Address</label>
+                <label className="block text-gray-700 font-semibold mb-2">
+                  Email Address
+                </label>
                 <input
                   type="email"
                   name="email"
@@ -93,7 +109,9 @@ const ContactPage = () => {
               </div>
 
               <div>
-                <label className="block text-gray-700 font-semibold mb-2">Phone Number</label>
+                <label className="block text-gray-700 font-semibold mb-2">
+                  Phone Number
+                </label>
                 <input
                   type="tel"
                   name="phone"
@@ -104,7 +122,9 @@ const ContactPage = () => {
               </div>
 
               <div>
-                <label className="block text-gray-700 font-semibold mb-2">Your Message</label>
+                <label className="block text-gray-700 font-semibold mb-2">
+                  Your Message
+                </label>
                 <textarea
                   name="message"
                   value={formData.message}

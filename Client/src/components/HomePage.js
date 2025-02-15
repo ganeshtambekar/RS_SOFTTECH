@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { BookOpen, Users, Building2, Award } from 'lucide-react';
+import ContactPage from './ContactPage';
+import Courses from './Courses'
 
 const HomePage = () => {
   const [currentTestimonial, setCurrentTestimonial] = useState(0);
@@ -55,10 +57,10 @@ const HomePage = () => {
               Industry-leading training programs to help you master the skills that matter
             </p>
             <div className="space-x-4">
-              <button className="bg-white text-blue-600 px-6 py-3 rounded-lg font-semibold hover:bg-blue-50 transition-colors">
+              <button className="bg-white text-blue-600 px-6 py-3 rounded-lg font-semibold hover:bg-blue-50 transition-colors" onClick={() => (window.location.href = "/Courses")}>
                 Explore Courses
               </button>
-              <button className="border-2 border-white px-6 py-3 rounded-lg font-semibold hover:bg-white hover:text-blue-600 transition-colors">
+              <button className="border-2 border-white px-6 py-3 rounded-lg font-semibold hover:bg-white hover:text-blue-600 transition-colors"  onClick={() => (window.location.href = "/ContactPage")}>
                 Contact Us
               </button>
             </div>
