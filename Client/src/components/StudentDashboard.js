@@ -21,7 +21,7 @@ const  StudentDashboard = () => {
 
     const fetchStudentData = async () => {
       try {
-        const response = await axios.get(`${config.API_URL}${'login'}`, {
+        const response = await axios.get(`${config.API_URL}${'/students'}`, {
           headers: { 
             'Authorization': `Bearer ${token}`,
             'Content-Type': 'application/json'

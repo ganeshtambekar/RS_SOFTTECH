@@ -5,8 +5,7 @@ import { Plus, Edit, Trash, Search } from 'lucide-react';
 import { Button } from './ui/Button';
 import { Input } from './ui/Input';
 import { Card, CardHeader, CardTitle, CardContent } from "./ui/card"
-
-
+import config from '../config/config'
 
 
 const CourseSection = () => {
@@ -23,19 +22,15 @@ const CourseSection = () => {
     price: ''
   });
 
-  // API base URL
-  const API_URL = 'http://localhost:4000/api';
-
-  // Fetch courses on component mount
   useEffect(() => {
     fetchCourses();
   }, []);
 
-  // Fetch all courses
+
   const fetchCourses = async () => {
     try {
       setLoading(true);
-      const response = await axios.get(`${API_URL}/courses`, {
+      const response = await axios.get(`${config.API_URL}courses`, {
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('token')}`
         }
@@ -53,7 +48,7 @@ const CourseSection = () => {
     e.preventDefault();
     try {
       setLoading(true);
-      const response = await axios.post(`${API_URL}/courses`, formData, {
+      const response = await axios.post(`${config.API_URL}courses`, formData, {
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('token')}`
         }
@@ -74,7 +69,7 @@ const CourseSection = () => {
     try {
       setLoading(true);
       const response = await axios.put(
-        `${API_URL}/courses/${editingCourse._id}`,
+        `${config.API_URL}/courses/${editingCourse._id}`,
         formData,
         {
           headers: {
@@ -99,7 +94,7 @@ const CourseSection = () => {
     if (window.confirm('Are you sure you want to delete this course?')) {
       try {
         setLoading(true);
-        await axios.delete(`${API_URL}/courses/${courseId}`, {
+        await axios.delete(`${config.API_URL}${courseId}`, {
           headers: {
             'Authorization': `Bearer ${localStorage.getItem('token')}`
           }
@@ -115,8 +110,9 @@ const CourseSection = () => {
 
   // Filter courses based on search term
   const filteredCourses = courses.filter(course =>
-    course.name.toLowerCase().includes(searchTerm.toLowerCase())
+    course.name?.toLowerCase().includes(searchTerm?.toLowerCase() || "")
   );
+  
 
   return (
     <div className="p-6">
