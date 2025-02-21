@@ -17,7 +17,7 @@ router.get('/courses', auth, async (req, res) => {
 });
 
 
-router.post('/courses', [auth], async (req, res) => {
+router.post('/courses', auth, async (req, res) => {
   try {
     const { name, description, duration, price } = req.body;
     console.log(req.body);
@@ -43,7 +43,7 @@ router.post('/courses', [auth], async (req, res) => {
 });
 
 
-router.put('/:id', [auth], async (req, res) => {
+router.put('/:id', auth, async (req, res) => {
   try {
     const course = await Course.findById(req.params.id);
     if (!course) {
@@ -59,7 +59,7 @@ router.put('/:id', [auth], async (req, res) => {
 });
 
 
-router.delete('/:id', [auth], async (req, res) => {
+router.delete('/:id', auth, async (req, res) => {
   try {
     const course = await Course.findById(req.params.id);
     if (!course) {

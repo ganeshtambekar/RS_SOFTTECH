@@ -54,7 +54,7 @@ require("dotenv").config();
 const authRoutes = require("./routes/auth");
 const emailRoutes = require("./routes/email"); 
 const courseRoutes=require("./routes/courses");
-const {errorHandler} = require("./utils/errorhandler");
+// const {errorHandler} = require("./utils/errorhandler");
 const router = express.Router();
 
 
