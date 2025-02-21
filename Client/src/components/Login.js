@@ -10,7 +10,7 @@ import StudentDashboard from './StudentDashboard';
 
 const Login = () => {
   const navigate = useNavigate();
-  const [userType, setUserType] = useState('student'); // 'student' or 'admin'
+  const [userType, setUserType] = useState('student'); 
   const [message, setMessage] = useState('');
   const [error, setError] = useState('');
 
