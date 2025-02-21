@@ -5,7 +5,7 @@ class ErrorResponse extends Error {
     }
 }
 
-const errorHandler = (err, req, res, next) => {
+exports.errorHandler = (err, req, res, next) => {
     let error = { ...err };
     error.message = err.message;
 
@@ -31,4 +31,4 @@ const errorHandler = (err, req, res, next) => {
     });
 };
 
-module.exports = { ErrorResponse, errorHandler };
+// module.exports = { ErrorResponse, errorHandler };
