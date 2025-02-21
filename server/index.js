@@ -48,30 +48,30 @@
 
 
 const express = require("express");
-// const cors = require("cors");
-// const connectDB = require("./config/db");
-// require("dotenv").config();
-// const authRoutes = require("./routes/auth");
-// const emailRoutes = require("./routes/email"); 
-// const courseRoutes=require("./routes/courses");
-// const { errorHandler } = require("./utils/errorhandler");
+const cors = require("cors");
+const connectDB = require("./config/db");
+require("dotenv").config();
+const authRoutes = require("./routes/auth");
+const emailRoutes = require("./routes/email"); 
+const courseRoutes=require("./routes/courses");
+const { errorHandler } = require("./utils/errorhandler");
 const router = express.Router();
 
 
 const app = express();
 
-// (async () => {
-//   try {
-//     await connectDB();
-//     console.log("Database connected successfully.");
-//   } catch (err) {
-//     console.error("Database connection failed:", err);
-//     process.exit(1);
-//   }
-// })();
+(async () => {
+  try {
+    await connectDB();
+    console.log("Database connected successfully.");
+  } catch (err) {
+    console.error("Database connection failed:", err);
+    process.exit(1);
+  }
+})();
 
-// // Middleware
-// app.use(express.json());
+// Middleware
+app.use(express.json());
 
 // // CORS Configuration
 // const allowedOrigins = [
@@ -81,9 +81,9 @@ const app = express();
 // app.use(cors());
 
 // // Routes
-// app.use("/api", authRoutes);
-// app.use("/api", emailRoutes); 
-// app.use("/api",courseRoutes);
+app.use("/api", authRoutes);
+app.use("/api", emailRoutes); 
+app.use("/api",courseRoutes);
 router.get("/", (req, res) => {
   res.send("Welcome");
 });
