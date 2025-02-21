@@ -51,10 +51,10 @@ const express = require("express");
 const cors = require("cors");
 const connectDB = require("./config/db");
 require("dotenv").config();
-const authRoutes = require("./routes/auth");
-const emailRoutes = require("./routes/email"); 
-const courseRoutes=require("./routes/courses");
-const { errorHandler } = require("./utils/errorhandler");
+// const authRoutes = require("./routes/auth");
+// const emailRoutes = require("./routes/email"); 
+// const courseRoutes=require("./routes/courses");
+// const { errorHandler } = require("./utils/errorhandler");
 const router = express.Router();
 
 
