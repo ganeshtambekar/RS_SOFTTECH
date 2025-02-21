@@ -81,9 +81,9 @@ app.use(express.json());
 // app.use(cors());
 
 // // Routes
-app.use("/api", authRoutes);
-app.use("/api", emailRoutes); 
-app.use("/api",courseRoutes);
+// app.use("/api", authRoutes);
+// app.use("/api", emailRoutes); 
+// app.use("/api",courseRoutes);
 router.get("/", (req, res) => {
   res.send("Welcome");
 });
