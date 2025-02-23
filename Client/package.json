@@ -4,6 +4,7 @@
   "proxy": "http://localhost:4000",
   "private": true,
   "dependencies": {
+    "@radix-ui/react-dialog": "^1.1.6",
     "@react-google-maps/api": "^2.20.6",
     "@shadcn/ui": "^0.0.4",
     "@tailwindcss/vite": "^4.0.4",

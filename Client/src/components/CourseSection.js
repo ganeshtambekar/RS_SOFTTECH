@@ -30,7 +30,7 @@ const CourseSection = () => {
   const fetchCourses = async () => {
     try {
       setLoading(true);
-      const response = await axios.get(`${config.API_URL}courses`, {
+      const response = await axios.get(`${config.API_URL}/courses`, {
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('token')}`
         }
@@ -48,7 +48,7 @@ const CourseSection = () => {
     e.preventDefault();
     try {
       setLoading(true);
-      const response = await axios.post(`${config.API_URL}courses`, formData, {
+      const response = await axios.post(`${config.API_URL}/courses`, formData, {
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('token')}`
         }
@@ -94,7 +94,7 @@ const CourseSection = () => {
     if (window.confirm('Are you sure you want to delete this course?')) {
       try {
         setLoading(true);
-        await axios.delete(`${config.API_URL}${courseId}`, {
+        await axios.delete(`${config.API_URL}/courses/${courseId}`, {
           headers: {
             'Authorization': `Bearer ${localStorage.getItem('token')}`
           }

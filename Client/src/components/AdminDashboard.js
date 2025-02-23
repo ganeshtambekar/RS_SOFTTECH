@@ -1,5 +1,6 @@
 import React from 'react';
 import CourseSection from './CourseSection';
+import StudentSection from './StudentSection';
 import { 
   Users, 
   BookOpen, 
@@ -197,46 +198,6 @@ const AdminDashboard = () => {
 //     </div>
 //   );
 // };
-
-const StudentSection = () => {
-  return (
-    <div className="p-6">
-      <div className="flex justify-between items-center mb-6">
-        <h2 className="text-2xl font-semibold">Students</h2>
-        <Button className="flex items-center gap-2">
-          <Plus className="h-4 w-4" /> Add Student
-        </Button>
-      </div>
-
-      <div className="mb-6">
-        <Input 
-          placeholder="Search students..." 
-          className="max-w-md"
-          icon={<Search className="h-4 w-4" />}
-        />
-      </div>
-
-      <div className="grid gap-4">
-        {['John Doe', 'Jane Smith', 'Mike Johnson'].map((student) => (
-          <Card key={student}>
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-lg font-medium">{student}</CardTitle>
-              <Button variant="outline" size="icon">
-                <Settings className="h-4 w-4" />
-              </Button>
-            </CardHeader>
-            <CardContent>
-              <div className="flex justify-between text-sm text-gray-600">
-                <span>Enrolled Courses: 2</span>
-                <span>Status: Active</span>
-              </div>
-            </CardContent>
-          </Card>
-        ))}
-      </div>
-    </div>
-  );
-};
 
 const StaffSection = () => {
   return (

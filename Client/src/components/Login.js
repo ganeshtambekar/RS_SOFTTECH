@@ -32,7 +32,8 @@ const Login = () => {
         setMessage('');
         setError('');
         const endpoint = userType === 'admin' ? '/login' : '/login';
-        const response = await axios.post(`${config.API_URL}${endpoint}`, values);
+        const response = await axios.post(`${config.API_URL}/login`, values);
+
 
         if (response.data.token) {
           localStorage.setItem('token', response.data.token);

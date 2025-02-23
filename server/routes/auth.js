@@ -27,15 +27,10 @@ router.post('/register', validateAuth, async (req, res) => {
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    user = new User({
-      name,
-      email,
-      password: hashedPassword,
-    });
-
+    user = new User({ name, email, password: hashedPassword });
     await user.save();
 
-   // const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET, { expiresIn: '24h' });
+    const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET, { expiresIn: '24h' });
 
     res.status(201).json({ message: 'User created successfully', token });
   } catch (error) {
@@ -45,8 +40,7 @@ router.post('/register', validateAuth, async (req, res) => {
 });
 
 // Login Route
-router.post('/login', async (req, res) => {
-  console.log(req.body)
+router.post('/login', validateAuth, async (req, res) => {
   try {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -65,9 +59,9 @@ router.post('/login', async (req, res) => {
       return res.status(401).json({ message: 'Invalid credentials' });
     }
 
-   // const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET, { expiresIn: '24h' });
+    const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET, { expiresIn: '24h' });
 
-    res.json({ message: 'Login successful' });
+    res.status(200).json({ message: 'Login successful', token });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Server error' });

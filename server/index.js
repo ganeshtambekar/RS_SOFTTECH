@@ -7,6 +7,7 @@ const authRoutes = require("./routes/auth");
 const emailRoutes = require("./routes/email"); 
 const courseRoutes=require("./routes/courses");
 const {errorHandler} = require("./utils/errorhandler");
+const Student = require('./routes/student');
 const router = express.Router();
 
 
@@ -25,26 +26,25 @@ const app = express();
 // Middleware
 app.use(express.json());
 
-// // CORS Configuration
-// const allowedOrigins = [
-//   process.env.FRONTEND_URL || "http://localhost:3000"
-// ];
+// CORS Configuration
+const allowedOrigins = [
+  process.env.FRONTEND_URL || "http://localhost:3000"
+];
 
-// app.use(cors());
+app.use(cors());
 
 // // Routes
 app.use("/api", authRoutes);
 app.use("/api", emailRoutes); 
 app.use("/api",courseRoutes);
+app.use("/api",Student);
 // router.get("/", (req, res) => {
 //   res.send("Welcome");
 // });
 
 
 // app.use("/", router);
-
-
-// app.use(errorHandler);
+app.use(errorHandler);
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
