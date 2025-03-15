@@ -19,7 +19,7 @@ const Navbar = () => {
     { name: "Home", href: "/" },
     { name: "Courses", href: routes.courses },
     { name: "Corporate Training", href: routes.corporate },
-    { name: "Blog", href: routes.blog },
+    { name: "About US", href: routes.about },
     { name: "Contact", href: routes.contact },
   ];
 
@@ -65,12 +65,12 @@ const Navbar = () => {
 
           {/* User Actions */}
           <div className="hidden md:flex items-center space-x-4">
-            <a href="/Login" className="text-gray-600 hover:text-blue-600 font-medium">
+            <a href="/login" className="text-gray-600 hover:text-blue-600 font-medium">
               Login
             </a>
             <a
               href="/RegisterPage"
-              className="bg-blue-600 text-white px-4 py-2 rounded-lg font-medium hover:bg-blue-700 transition-colors"
+              className="text-gray-600 hover:text-blue-600 font-medium"
             >
               Register
             </a>
@@ -103,7 +103,7 @@ const Navbar = () => {
                 </a>
                 <a
                   href="/register"
-                  className="block bg-blue-600 text-white px-3 py-2 rounded-md text-base font-medium hover:bg-blue-700"
+                  className="block text-gray-600 hover:text-blue-600 px-3 py-2 text-base font-medium"
                 >
                   Register
                 </a>

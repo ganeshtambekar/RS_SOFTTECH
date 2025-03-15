@@ -14,12 +14,12 @@ import Login from './components/Login';
 import RegisterPage from './components/RegisterPage';
 import AdminDashboard from './components/AdminDashboard';
 import StudentDashboard from './components/StudentDashboard';
+import AboutUs from './components/AboutUs';
 const App = () => (
   <Router>
     <Navbar />
     <Routes>
       <Route path={routes.home} element={<HomePage/>} />
-      <Route path={routes.blog} element={<Blog />} />
       <Route path={routes.contact} element={<ContactPage />} />
       <Route path={routes.login} element={<Login />} />
       <Route path={routes.courses} element={<Courses/>}/>
@@ -27,7 +27,7 @@ const App = () => (
       <Route path={routes.register} element={<RegisterPage />}/>
       <Route path={routes.admin} element={<AdminDashboard/>}/>
       <Route path={routes.student} element={<StudentDashboard/>}/>
-
+      <Route path={routes.about} element={<AboutUs/>}/>
 
 
 
