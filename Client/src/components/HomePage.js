@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import routes from '../constants/routes';
 import { BookOpen, Users, Building2, Award } from 'lucide-react';
 import ContactPage from './ContactPage';
 import Courses from './Courses'
@@ -7,12 +8,12 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import { Navigation, Pagination, Autoplay } from "swiper/modules";
-
+import { useNavigate } from 'react-router-dom';
 
 
 const HomePage = () => {
   const [currentTestimonial, setCurrentTestimonial] = useState(0);
-  
+  const navigate = useNavigate();
   const testimonials = [
     {
       name: "mark zuckerberg",
@@ -101,12 +102,17 @@ const HomePage = () => {
               Industry-leading training programs to help you master the skills that matter
             </p>
             <div className="space-x-4">
-              <button className="bg-white text-blue-600 px-6 py-3 rounded-lg font-semibold hover:bg-blue-50 transition-colors" onClick={() => (window.location.href = "/Courses")}>
-                Explore Courses
-              </button>
-              <button className="border-2 border-white px-6 py-3 rounded-lg font-semibold hover:bg-white hover:text-blue-600 transition-colors"  onClick={() => (window.location.href = "/ContactPage")}>
-                Contact Us
-              </button>
+            <button 
+  className="bg-white text-blue-600 px-6 py-3 rounded-lg font-semibold hover:bg-blue-50 transition-colors" 
+  onClick={() => navigate(routes.courses)}>
+  Explore Courses
+</button>
+
+<button 
+  className="border-2 border-white px-6 py-3 rounded-lg font-semibold hover:bg-white hover:text-blue-600 transition-colors"
+  onClick={() => navigate(routes.contact)}>
+  Contact Us
+</button>
             </div>
           </div>
         </div>

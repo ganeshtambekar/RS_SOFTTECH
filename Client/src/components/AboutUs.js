@@ -12,7 +12,7 @@ const leadershipTeam = [
     role: "Head of Department",
     qualification: "Ph.D. Computer Science",
     degree: "Stanford University",
-    image: "/api/placeholder/400/400",
+    image: "/sundar.jpg",
     bio: "Dr. Woods has over 15 years of experience in computer science research and education leadership. She specializes in artificial intelligence and computational theory."
   },
   {
@@ -21,7 +21,7 @@ const leadershipTeam = [
     role: "Associate Head",
     qualification: "Ph.D. Information Technology",
     degree: "MIT",
-    image: "/api/placeholder/400/400",
+    image: "/sundar.jpg",
     bio: "Professor Chen oversees curriculum development and research initiatives. His work in cloud computing architecture has been published in numerous international journals."
   },
   {
@@ -30,7 +30,7 @@ const leadershipTeam = [
     role: "Director of Research",
     qualification: "Ph.D. Data Science",
     degree: "UC Berkeley",
-    image: "/api/placeholder/400/400",
+    image: "/sundar.jpg",
     bio: "Dr. Johnson leads our research programs and industry partnerships. She's a renowned expert in machine learning applications for healthcare."
   }
 ];
@@ -41,42 +41,42 @@ const facultyMembers = [
     name: "Dr. Robert Martinez",
     qualification: "Ph.D. Computer Science",
     expertise: ["Algorithms", "Data Structures", "Machine Learning"],
-    image: "/api/placeholder/400/400"
+    image: "/mark.png"
   },
   {
     id: 2,
     name: "Prof. Lisa Wang",
     qualification: "Ph.D. Applied Mathematics",
     expertise: ["Statistical Analysis", "Neural Networks", "Big Data"],
-    image: "/api/placeholder/400/400"
+    image:"/mark.png"
   },
   {
     id: 3,
     name: "Dr. David Kim",
     qualification: "Ph.D. Electrical Engineering",
     expertise: ["Computer Architecture", "Embedded Systems", "IoT"],
-    image: "/api/placeholder/400/400"
+    image: "/mark.png"
   },
   {
     id: 4,
     name: "Dr. Emma Thompson",
     qualification: "Ph.D. Information Systems",
     expertise: ["Database Design", "Web Development", "User Experience"],
-    image: "/api/placeholder/400/400"
+    image: "/mark.png"
   },
   {
     id: 5,
     name: "Prof. James Wilson",
     qualification: "Ph.D. Software Engineering",
     expertise: ["Software Architecture", "Agile Methodologies", "DevOps"],
-    image: "/api/placeholder/400/400"
+    image: "/mark.png"
   },
   {
     id: 6,
     name: "Dr. Sophia Garcia",
     qualification: "Ph.D. Cybersecurity",
     expertise: ["Network Security", "Ethical Hacking", "Cryptography"],
-    image: "/api/placeholder/400/400"
+    image: "/mark.png"
   }
 ];
 
@@ -86,61 +86,53 @@ const hrTeam = [
     name: "Alex Richards",
     role: "HR Director",
     responsibilities: "Overall HR strategy, policy development, leadership development",
-    image: "/api/placeholder/400/400"
+    image: "/mark.png"
   },
   {
     id: 2,
     name: "Priya Patel",
     role: "Recruitment Manager",
     responsibilities: "Talent acquisition, onboarding, employee retention strategies",
-    image: "/api/placeholder/400/400"
+    image: "/mark.png"
   },
   {
     id: 3,
     name: "Thomas Brown",
     role: "Employee Relations Specialist",
     responsibilities: "Conflict resolution, employee engagement, workplace culture",
-    image: "/api/placeholder/400/400"
+    image: "/mark.png"
   }
 ];
 
 const developmentTeam = [
   {
     id: 1,
-    name: "Ryan Lee",
+    name: "Ganesh Tambekar",
     role: "Lead Developer",
     skills: ["React", "Node.js", "TypeScript", "AWS"],
-    image: "/api/placeholder/400/400",
-    github: "https://github.com/ryanleeDev",
-    linkedin: "https://linkedin.com/in/ryanlee"
+    image: "ganesh.jpg",
+    github: "https://github.com/ganeshtambekar",
+    linkedin: "https://linkedin.com/in/tambekarganesh"
   },
   {
     id: 2,
-    name: "Maya Singh",
+    name: "Abhishek Chavan",
     role: "Frontend Developer",
     skills: ["React", "Tailwind CSS", "JavaScript", "UI/UX"],
-    image: "/api/placeholder/400/400",
+    image: "abhishek.jpg",
     github: "https://github.com/mayasinghDev",
-    linkedin: "https://linkedin.com/in/mayasingh"
+    linkedin: "https://linkedin.com/in/tambekarganesh"
   },
   {
     id: 3,
-    name: "Carlos Rodriguez",
+    name: "Pranav Wadhekar",
     role: "Backend Developer",
     skills: ["Node.js", "Express", "MongoDB", "GraphQL"],
-    image: "/api/placeholder/400/400",
+    image: "pranav.jpg",
     github: "https://github.com/carlosrDev",
-    linkedin: "https://linkedin.com/in/carlosrodriguez"
+    linkedin: "https://linkedin.com/in/tambekarganesh"
   },
-  {
-    id: 4,
-    name: "Olivia Zhang",
-    role: "Full Stack Developer",
-    skills: ["React", "Python", "Django", "Docker"],
-    image: "/api/placeholder/400/400",
-    github: "https://github.com/oliviazhangDev",
-    linkedin: "https://linkedin.com/in/oliviazhang"
-  }
+ 
 ];
 
 const AboutUs = () => {
@@ -434,89 +426,89 @@ const AboutUs = () => {
 
       {/* Development Team Section */}
       <section className={`py-16 px-4 ${darkMode ? 'bg-gray-800' : 'bg-gray-100'}`}>
-        <div className="container mx-auto">
-          <motion.div
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, amount: 0.2 }}
-            variants={fadeIn}
-            className="text-center mb-12"
-          >
-            <h2 className={`text-3xl font-bold mb-4 ${darkMode ? 'text-white' : 'text-gray-800'}`}>
-              Our Development Team
-            </h2>
-            <p className={`max-w-2xl mx-auto ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
-              Meet the talented developers behind our digital platforms and innovative applications.
-            </p>
-          </motion.div>
+  <div className="container mx-auto">
+    <motion.div
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true, amount: 0.2 }}
+      variants={fadeIn}
+      className="text-center mb-12"
+    >
+      <h2 className={`text-3xl font-bold mb-4 ${darkMode ? 'text-white' : 'text-gray-800'}`}>
+        Our Development Team
+      </h2>
+      <p className={`max-w-2xl mx-auto ${darkMode ? 'text-gray-300' : 'text-gray-600'}`}>
+        Meet the core team behind our digital platforms and innovative applications.
+      </p>
+    </motion.div>
 
-          <motion.div 
-            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6"
-            variants={staggerContainer}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, amount: 0.1 }}
-          >
-            {developmentTeam.map((developer) => (
-              <motion.div 
-                key={developer.id}
-                variants={fadeIn}
-                whileHover={{ scale: 1.03 }}
-                className={`rounded-lg overflow-hidden shadow-md ${darkMode ? 'bg-gray-700' : 'bg-white'} transition-all duration-300`}
-              >
-                <div className="relative group">
-                  <img 
-                    src={developer.image} 
-                    alt={`${developer.name}, ${developer.role}`} 
-                    className="w-full h-64 object-cover"
-                    loading="lazy"
-                  />
-                  <div className={`absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 ${
-                    darkMode ? 'bg-gray-900/80' : 'bg-gray-800/70'
-                  }`}>
-                    <div className="flex space-x-4">
-                      <a 
-                        href={developer.github} 
-                        target="_blank" 
-                        rel="noopener noreferrer"
-                        className="p-2 bg-gray-800 rounded-full text-white hover:bg-gray-700 transition-colors"
-                        aria-label={`${developer.name}'s GitHub profile`}
-                      >
-                        <FaGithub size={24} />
-                      </a>
-                      <a 
-                        href={developer.linkedin} 
-                        target="_blank" 
-                        rel="noopener noreferrer"
-                        className="p-2 bg-blue-600 rounded-full text-white hover:bg-blue-700 transition-colors"
-                        aria-label={`${developer.name}'s LinkedIn profile`}
-                      >
-                        <FaLinkedin size={24} />
-                      </a>
-                    </div>
-                  </div>
-                </div>
-                <div className="p-4">
-                  <h3 className={`text-lg font-bold mb-1 ${darkMode ? 'text-white' : 'text-gray-800'}`}>{developer.name}</h3>
-                  <p className={`text-sm mb-3 ${darkMode ? 'text-blue-400' : 'text-blue-600'}`}>{developer.role}</p>
-                  <div className="flex flex-wrap gap-1">
-                    {developer.skills.map((skill, index) => (
-                      <span
-                        key={index}
-                        className={`inline-block text-xs px-2 py-1 rounded-full ${
-                          darkMode ? 'bg-gray-600 text-gray-200' : 'bg-gray-200 text-gray-800'
-                        }`}
-                      >
-                        {skill}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              </motion.div>
-            ))}
-          </motion.div>
-        </div>
-      </section>
+    <motion.div 
+      className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" // Changed from lg:grid-cols-4
+      variants={staggerContainer}
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true, amount: 0.1 }}
+    >
+      {developmentTeam.slice(0, 3).map((developer) => ( // Only show first 3 developers
+        <motion.div 
+          key={developer.id}
+          variants={fadeIn}
+          whileHover={{ scale: 1.03 }}
+          className={`rounded-lg overflow-hidden shadow-md ${darkMode ? 'bg-gray-700' : 'bg-white'} transition-all duration-300`}
+        >
+          <div className="relative group">
+            <img 
+              src={developer.image} 
+              alt={`${developer.name}, ${developer.role}`} 
+              className="w-full h-84 object-cover"
+              loading="lazy"
+            />
+            <div className={`absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 ${
+              darkMode ? 'bg-gray-900/80' : 'bg-gray-800/70'
+            }`}>
+              <div className="flex space-x-4">
+                <a 
+                  href={developer.github} 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="p-2 bg-gray-800 rounded-full text-white hover:bg-gray-700 transition-colors"
+                  aria-label={`${developer.name}'s GitHub profile`}
+                >
+                  <FaGithub size={24} />
+                </a>
+                <a 
+                  href={developer.linkedin} 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="p-2 bg-blue-600 rounded-full text-white hover:bg-blue-700 transition-colors"
+                  aria-label={`${developer.name}'s LinkedIn profile`}
+                >
+                  <FaLinkedin size={24} />
+                </a>
+              </div>
+            </div>
+          </div>
+          <div className="p-4">
+            <h3 className={`text-lg font-bold mb-1 ${darkMode ? 'text-white' : 'text-gray-800'}`}>{developer.name}</h3>
+            <p className={`text-sm mb-3 ${darkMode ? 'text-blue-400' : 'text-blue-600'}`}>{developer.role}</p>
+            <div className="flex flex-wrap gap-1">
+              {developer.skills.map((skill, index) => (
+                <span
+                  key={index}
+                  className={`inline-block text-xs px-2 py-1 rounded-full ${
+                    darkMode ? 'bg-gray-600 text-gray-200' : 'bg-gray-200 text-gray-800'
+                  }`}
+                >
+                  {skill}
+                </span>
+              ))}
+            </div>
+          </div>
+        </motion.div>
+      ))}
+    </motion.div>
+  </div>
+</section>
 
       {/* Footer Section */}
       <footer className={`py-8 px-4 ${darkMode ? 'bg-gray-900 border-t border-gray-800' : 'bg-white border-t border-gray-200'}`}>

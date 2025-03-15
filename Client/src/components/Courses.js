@@ -1,18 +1,12 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
+import routes from '../constants/routes';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Pagination, A11y } from 'swiper/modules';
 import { Star, Clock, Calendar, User, Award, ChevronRight, Mail } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { toast,ToastContainer } from 'react-toastify';
-// import 'react-toastify/dist/ReactToastify.css';
-// toast.configure();
-// Import Swiper styles
-// Note: In a real application, you would import these from node_modules
-// import 'swiper/css';
-// import 'swiper/css/navigation';
-// import 'swiper/css/pagination';
 
-// Sample data
 const categories = [
   {
     id: 1,
@@ -652,10 +646,42 @@ const Courses = () => {
             <div className="mb-6 md:mb-0">
               <h4 className="text-lg font-semibold mb-4">Quick Links</h4>
               <ul className="space-y-2">
-                <li><a href="#" className="text-gray-400 hover:text-white transition duration-200">Courses</a></li>
-                <li><a href="#/AboutUs" className="text-gray-400 hover:text-white transition duration-200">About Us</a></li>
-                <li><a href="/ContactPage" className="text-gray-400 hover:text-white transition duration-200">Contact</a></li>
-                <li><a href="/FAQ" className="text-gray-400 hover:text-white transition duration-200">FAQ</a></li>
+              <li>
+  <Link 
+    to={routes.courses} 
+    className="text-gray-400 hover:text-white transition duration-200"
+    aria-label="View courses"
+  >
+    Courses
+  </Link>
+</li>
+<li>
+  <Link 
+    to="/AboutUs" 
+    className="text-gray-400 hover:text-white transition duration-200"
+    aria-label="About us"
+  >
+    About Us
+  </Link>
+</li>
+<li>
+  <Link 
+    to="/ContactPage" 
+    className="text-gray-400 hover:text-white transition duration-200"
+    aria-label="Contact us"
+  >
+    Contact
+  </Link>
+</li>
+<li>
+  <Link 
+    to="/FAQ" 
+    className="text-gray-400 hover:text-white transition duration-200"
+    aria-label="Frequently asked questions"
+  >
+    FAQ
+  </Link>
+</li>
               </ul>
             </div>
             <div>

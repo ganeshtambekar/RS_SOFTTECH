@@ -4,18 +4,12 @@ const LoadingScreen = () => {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const hasVisited = localStorage.getItem("hasVisited");
-    
-    if (!hasVisited) {
-      const timer = setTimeout(() => {
-        localStorage.setItem("hasVisited", "true");
-        setIsLoading(false);
-      }, 2000);
-      return () => clearTimeout(timer);
-    } else {
+    const timer = setTimeout(() => {
       setIsLoading(false);
-    }
-  }, []);
+    }, 2000);
+
+    return () => clearTimeout(timer);
+  }, []); // Empty dependency array = runs only on mount
 
   if (isLoading) {
     return (

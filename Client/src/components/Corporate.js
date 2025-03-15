@@ -1,7 +1,16 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { Building2, Users, Target, Briefcase, Send } from 'lucide-react';
 
 const Corporate = () => {
+  const contactFormRef = useRef(null);
+
+  const scrollToForm = () => {
+    contactFormRef.current?.scrollIntoView({
+      behavior: "smooth",
+      block: "start"
+    });
+  };
+
   const trainingPrograms = [
     {
       title: 'Technical Skills Development',
@@ -35,7 +44,10 @@ const Corporate = () => {
             <p className="text-xl mb-8">
               Customized corporate training solutions to upskill your team and drive business growth
             </p>
-            <button className="bg-white text-blue-600 px-8 py-3 rounded-lg font-semibold hover:bg-blue-50 transition-colors">
+            <button 
+              onClick={scrollToForm}
+              className="bg-white text-blue-600 px-8 py-3 rounded-lg font-semibold hover:bg-blue-50 transition-colors"
+            >
               Request Consultation
             </button>
           </div>
@@ -101,7 +113,7 @@ const Corporate = () => {
       </div>
 
       {/* Contact Form */}
-      <div className="py-16 bg-gray-50">
+      <div ref={contactFormRef} className="py-16 bg-gray-50 scroll-mt-20">
         <div className="container mx-auto px-4">
           <div className="max-w-2xl mx-auto">
             <h2 className="text-3xl font-bold text-center mb-12">Get in Touch</h2>
