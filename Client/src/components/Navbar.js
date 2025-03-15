@@ -1,30 +1,57 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Menu, X } from "lucide-react";
+import routes from "../constants/routes";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(!localStorage.getItem("hasVisited"));
+
+  useEffect(() => {
+    if (isLoading) {
+      setTimeout(() => {
+        setIsLoading(false);
+        localStorage.setItem("hasVisited", "true");
+      }, 2000); // Show logo for 2 seconds
+    }
+  }, [isLoading]);
 
   const navigation = [
     { name: "Home", href: "/" },
-    { name: "Courses", href: "/courses" },
-    { name: "Corporate Training", href: "/corporate" },
-    { name: "Blog", href: "/blog" },
-    { name: "Contact", href: "/contact" },
+    { name: "Courses", href: routes.courses },
+    { name: "Corporate Training", href: routes.corporate },
+    { name: "Blog", href: routes.blog },
+    { name: "Contact", href: routes.contact },
   ];
+
+  if (isLoading) {
+    return (
+      <div className="fixed inset-0 bg-white flex items-center justify-center z-50">
+        <img 
+          src="/logo.png" 
+          alt="RS Softtech Logo" 
+          className="h-32 w-32 animate-pulse" 
+        />
+      </div>
+    );
+  }
 
   return (
     <nav className="bg-white shadow-lg">
       <div className="container mx-auto px-4">
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
-          <div className="flex-shrink-0 ml-[300px]">
-  <a href="/">
-    <img src="/logo.png" alt="RS Softtech Logo" className="h-[50px] w-[50px]" />
-  </a>
-</div>
+          <div className="flex-shrink-0">
+            <a href="/" className="flex items-center">
+              <img 
+                src="/logo.png" 
+                alt="RS Softtech Logo" 
+                className="h-10 w-auto" 
+              />
+            </a>
+          </div>
 
           {/* Desktop Navigation */}
-          <div className="hidden md:flex space-x-8">
+          <div className="hidden md:flex space-x-6 items-center">
             {navigation.map((item) => (
               <a
                 key={item.name}
@@ -38,11 +65,11 @@ const Navbar = () => {
 
           {/* User Actions */}
           <div className="hidden md:flex items-center space-x-4">
-            <a href="/login" className="text-gray-600 hover:text-blue-600 font-medium">
+            <a href="/Login" className="text-gray-600 hover:text-blue-600 font-medium">
               Login
             </a>
             <a
-              href="/register"
+              href="/RegisterPage"
               className="bg-blue-600 text-white px-4 py-2 rounded-lg font-medium hover:bg-blue-700 transition-colors"
             >
               Register
