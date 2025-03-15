@@ -7,7 +7,8 @@ const routes = {
     corporate:'/Corporate',
     admin:'/AdminDashboard',
     student:'/StudentDashboard',
-    about:'/AboutUs'
+    about:'/AboutUs',
+    load:'/LoadingScreen'
 
   };
   

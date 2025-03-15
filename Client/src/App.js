@@ -15,8 +15,10 @@ import RegisterPage from './components/RegisterPage';
 import AdminDashboard from './components/AdminDashboard';
 import StudentDashboard from './components/StudentDashboard';
 import AboutUs from './components/AboutUs';
+import LoadingScreen from './components/LoadingScreen';
 const App = () => (
   <Router>
+    <LoadingScreen/>
     <Navbar />
     <Routes>
       <Route path={routes.home} element={<HomePage/>} />
@@ -28,6 +30,9 @@ const App = () => (
       <Route path={routes.admin} element={<AdminDashboard/>}/>
       <Route path={routes.student} element={<StudentDashboard/>}/>
       <Route path={routes.about} element={<AboutUs/>}/>
+      {/* <Route path={routes.load} element={<LoadingScreen/>}/> */}
+      
+
 
 
 
