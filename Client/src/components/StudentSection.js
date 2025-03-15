@@ -84,13 +84,10 @@ const StudentSection = () => {
       
       if (!token) {
         showNotification("Authentication failed. Please log in.", "error");
-        setIsSubmitting(false);
         return;
       }
 
-      // Fetch course ObjectIds from backend before submitting
       const courseNames = formData.courses.split(',').map(course => course.trim());
-
       const { data: courseList } = await axios.get(`${config.API_URL}/courses`, {
         headers: { Authorization: `Bearer ${token}` },
       });
@@ -101,13 +98,12 @@ const StudentSection = () => {
 
       if (courseIds.length !== courseNames.length) {
         showNotification("Some courses were not found. Please check course names.", "error");
-        setIsSubmitting(false);
         return;
       }
 
       const studentData = {
         name: formData.name.trim(),
-        enrolledCourses: courseIds,  // Send ObjectIds instead of names
+        enrolledCourses: courseIds,
         feesPaid: parseFloat(formData.feesPaid) || 0,
         testSeriesMarks: formData.testMarks
           ? formData.testMarks.split(',').map((mark, index) => ({
@@ -118,38 +114,30 @@ const StudentSection = () => {
         status: formData.status
       };
 
-      const response = await axios.post(`${config.API_URL}/students`, studentData, {
+      await axios.post(`${config.API_URL}/students`, studentData, {
         headers: { 
           "Authorization": `Bearer ${token}`,
           "Content-Type": "application/json" 
         },
       });
-      
 
       showNotification("Student added successfully!", "success");
-
-      // Refresh the student list to get the latest data
       await fetchStudents();
-      setIsSubmitting(false);
-    } catch (err) {
-      showNotification("Failed to add student. Please try again.", "error");
-      setIsSubmitting(false);
-    }
-    setIsAddDialogOpen(false);
-    setFormData({
-      name: '',
-      courses: '',
-      feesPaid: '',
-      testMarks: '',
-      status: 'Active'
-    });
-    showNotification('Student added successfully!');
     } catch (err) {
       showNotification(err.response?.data?.message || 'Failed to add student. Please try again.', 'error');
     } finally {
       setIsSubmitting(false);
+      setIsAddDialogOpen(false);
+      setFormData({
+        name: '',
+        courses: '',
+        feesPaid: '',
+        testMarks: '',
+        status: 'Active'
+      });
     }
-    
+  };
+
   return (
     <div className="p-6 relative">
       {notification && (
@@ -182,7 +170,7 @@ const StudentSection = () => {
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {students.map(student => (
-            <Card key={student.id} className="hover:shadow-lg transition-shadow">
+            <Card key={student._id} className="hover:shadow-lg transition-shadow">
               <CardHeader>
                 <CardTitle className="text-lg">{student.name}</CardTitle>
               </CardHeader>
@@ -295,5 +283,3 @@ const StudentSection = () => {
 };
 
 export default StudentSection;
-
-

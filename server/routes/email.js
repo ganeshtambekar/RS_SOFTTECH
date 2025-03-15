@@ -162,8 +162,9 @@ router.post("/email", async (req, res) => {
     `;
 
     await transporter.sendMail({
-      from: process.env.EMAIL_USER,
-      to: "ganesh.tambekar124@gmail.com",
+      from: email,
+      replyTo:email,
+      to: "rssoftech25@gmail.com",
       subject: `New Contact Form Submission from ${name} (${email})`,
       html: safeHtml,
     });
