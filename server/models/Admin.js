@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
-const StudentSchema = new mongoose.Schema({
+const AdminSchema = new mongoose.Schema({
   name: {
     type: String,
     required: [true, 'Please add a name'],
@@ -23,22 +23,9 @@ const StudentSchema = new mongoose.Schema({
     minlength: 6,
     select: false
   },
-  enrolledCourses: [{
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Course'
-    
-  }],
-  feesPaid: {
-    type: Boolean,
-    default: false
-  },
-  testSeries: [{
-    testName: String,
-    marks: Number
-  }],
   role: {
     type: String,
-    default: 'student'
+    default: 'admin'
   },
   createdAt: {
     type: Date,
@@ -47,7 +34,7 @@ const StudentSchema = new mongoose.Schema({
 });
 
 // Encrypt password using bcrypt
-StudentSchema.pre('save', async function(next) {
+AdminSchema.pre('save', async function(next) {
   if (!this.isModified('password')) {
     next();
   }
@@ -57,7 +44,7 @@ StudentSchema.pre('save', async function(next) {
 });
 
 // Sign JWT and return
-StudentSchema.methods.getSignedJwtToken = function() {
+AdminSchema.methods.getSignedJwtToken = function() {
   return jwt.sign(
     { id: this._id, role: this.role },
     process.env.JWT_SECRET,
@@ -66,8 +53,8 @@ StudentSchema.methods.getSignedJwtToken = function() {
 };
 
 // Match user entered password to hashed password in database
-StudentSchema.methods.matchPassword = async function(enteredPassword) {
+AdminSchema.methods.matchPassword = async function(enteredPassword) {
   return await bcrypt.compare(enteredPassword, this.password);
 };
 
-module.exports = mongoose.model('Student', StudentSchema);
+module.exports = mongoose.model('Admin', AdminSchema);

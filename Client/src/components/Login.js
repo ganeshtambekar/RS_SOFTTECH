@@ -31,8 +31,10 @@ const Login = () => {
       try {
         setMessage('');
         setError('');
-        const endpoint = userType === 'admin' ? '/login' : '/login';
-        const response = await axios.post(`${config.API_URL}/login`, values);
+        // const endpoint = userType === 'admin' ? '/login' : '/student/login';
+        // const response = await axios.post(`${config.API_URL}/endpoint`, values);
+        const endpoint = userType === 'admin' ? '/admin/login' : '/student/login';
+        const response = await axios.post(`${config.API_URL}${endpoint}`, values);
 
 
         if (response.data.token) {
@@ -40,8 +42,8 @@ const Login = () => {
           localStorage.setItem('userType', userType);
           setMessage(`${userType.charAt(0).toUpperCase() + userType.slice(1)} login successful!`);
           setTimeout(() => {
-            window.location.href = userType === 'admin' ? '/AdminDashboard' : '/StudentDashboard';
-          }, 1500);
+            navigate(userType === 'admin' ? '/AdminDashboard' : '/StudentDashboard');
+          }, 100);
         }
       } catch (error) {
         console.error('Auth error:', error);
@@ -138,12 +140,13 @@ const Login = () => {
 
         {userType === 'student' && (
           <div className="text-center mt-4">
-            <button
-              onClick={() => navigate('/RegisterPage')}
-              className="font-medium text-blue-600 hover:text-blue-500"
-            >
-              Don't have an account? Sign up
-            </button>
+          <button
+  onClick={() => navigate('/login', { state: { successMessage: 'Registration successful! Please login.' } })}
+  className="font-medium text-blue-600 hover:text-blue-500"
+>
+  Don't have an account? Sign up
+</button>
+
           </div>
         )}
       </div>

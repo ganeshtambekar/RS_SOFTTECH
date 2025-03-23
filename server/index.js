@@ -1,52 +1,45 @@
+const express = require('express');
+const dotenv = require('dotenv');
+const cors = require('cors');
+const adminRoute=require('./routes/adminRoutes');
+const studentRoute=require('./routes/studentRoutes');
 
-const express = require("express");
-const cors = require("cors");
-const connectDB = require("./config/db");
-require("dotenv").config();
-const authRoutes = require("./routes/auth");
-const emailRoutes = require("./routes/email"); 
-const courseRoutes=require("./routes/courses");
-const {errorHandler} = require("./utils/errorhandler");
-const Student = require('./routes/student');
-const router = express.Router();
+const connectDB = require('./config/db');
 
+const createInitialAdmin = require('./config/db');
+const register=require('./routes/register');
 
+// Load environment variables
+dotenv.config();
+
+// Connect to the database
+connectDB();
+//createInitialAdmin();
+
+// Initialize Express app
 const app = express();
-
-(async () => {
-  try {
-    await connectDB();
-    console.log("Database connected successfully.");
-  } catch (err) {
-    console.error("Database connection failed:", err);
-    process.exit(1);
-  }
-})();
 
 // Middleware
 app.use(express.json());
-
-// CORS Configuration
-const allowedOrigins = [
-  process.env.FRONTEND_URL || "http://localhost:3000"
-];
-
 app.use(cors());
 
-// // Routes
-app.use("/api", authRoutes);
-app.use("/api", emailRoutes); 
-app.use("/api",courseRoutes);
-app.use("/api",Student);
-// router.get("/", (req, res) => {
-//   res.send("Welcome");
-// });
+// Routes
+app.use('/api/admin', adminRoute);
+app.use('/api/student', studentRoute);
+app.use('/api/register', register);
+// Error handling middleware
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).json({
+    success: false,
+    error: err.message || 'Server Error'
+  });
+});
 
-
-// app.use("/", router);
-app.use(errorHandler);
-
+// Define port
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
 
-module.exports = app;
+// Start server
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});

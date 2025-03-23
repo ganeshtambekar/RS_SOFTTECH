@@ -1,3 +1,5 @@
+//import { Receipt } from "lucide-react";
+
 const routes = {
     home: '/',
     contact: '/ContactPage',
@@ -8,8 +10,10 @@ const routes = {
     admin:'/AdminDashboard',
     student:'/StudentDashboard',
     about:'/AboutUs',
-    load:'/LoadingScreen'
-
+    load:'/LoadingScreen',
+    receipt:'/Receipt',
+    dashboard:'/Dashboard',
+    lists:'/CourseList'
   };
   
   export default routes;

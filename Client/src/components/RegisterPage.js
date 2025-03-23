@@ -1,11 +1,14 @@
 import React from 'react';
 import axios from 'axios';
+import { Link, useNavigate } from 'react-router-dom';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { UserPlus, Mail, Lock, User } from 'lucide-react';
-import config from '../config/config';
 
 const RegisterPage = () => {
+  const navigate = useNavigate();
+  const BASE_URL = 'http://localhost:4000/api/register/register';
+
   // Validation Schema
   const validationSchema = Yup.object({
     name: Yup.string()
@@ -35,17 +38,12 @@ const RegisterPage = () => {
       confirmPassword: ''
     },
     validationSchema: validationSchema,
-    onSubmit: async (values) => {
+    onSubmit: async (values, { resetForm }) => {
       try {
-        const response = await axios.post('http://localhost:4000/api/register', {
-          name: values.name,
-          email: values.email,
-          password: values.password
-        });
-        
+        const response = await axios.post(BASE_URL, values);
         console.log('Registration successful:', response.data);
-        // Handle successful registration (e.g., show success message, redirect)
-        
+        resetForm();
+        navigate('/login', { state: { successMessage: 'Registration successful! Please login.' } });
       } catch (error) {
         console.error('Registration failed:', error);
         if (error.response) {
@@ -62,23 +60,15 @@ const RegisterPage = () => {
           <div className="flex justify-center mb-4">
             <UserPlus className="h-12 w-12 text-blue-600" />
           </div>
-          <h2 className="text-3xl font-extrabold text-gray-900">
-            Create Your Account
-          </h2>
+          <h2 className="text-3xl font-extrabold text-gray-900">Create Your Account</h2>
           <p className="mt-2 text-sm text-gray-600">
             Join RS Softtech and start your learning journey
           </p>
         </div>
 
-        <form 
-          className="mt-8 space-y-6" 
-          onSubmit={formik.handleSubmit}
-        >
+        <form className="mt-8 space-y-6" onSubmit={formik.handleSubmit}>
           {/* Name Input */}
           <div>
-            <label htmlFor="name" className="sr-only">
-              Full Name
-            </label>
             <div className="relative">
               <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                 <User className="h-5 w-5 text-gray-400" />
@@ -99,17 +89,12 @@ const RegisterPage = () => {
               />
             </div>
             {formik.touched.name && formik.errors.name && (
-              <p className="mt-2 text-sm text-red-600">
-                {formik.errors.name}
-              </p>
+              <p className="mt-2 text-sm text-red-600">{formik.errors.name}</p>
             )}
           </div>
 
           {/* Email Input */}
           <div>
-            <label htmlFor="email" className="sr-only">
-              Email address
-            </label>
             <div className="relative">
               <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                 <Mail className="h-5 w-5 text-gray-400" />
@@ -118,7 +103,6 @@ const RegisterPage = () => {
                 id="email"
                 name="email"
                 type="email"
-                autoComplete="email"
                 placeholder="Email address"
                 className={`appearance-none rounded-md relative block w-full px-3 py-2 pl-10 border ${
                   formik.touched.email && formik.errors.email
@@ -131,17 +115,12 @@ const RegisterPage = () => {
               />
             </div>
             {formik.touched.email && formik.errors.email && (
-              <p className="mt-2 text-sm text-red-600">
-                {formik.errors.email}
-              </p>
+              <p className="mt-2 text-sm text-red-600">{formik.errors.email}</p>
             )}
           </div>
 
           {/* Password Input */}
           <div>
-            <label htmlFor="password" className="sr-only">
-              Password
-            </label>
             <div className="relative">
               <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                 <Lock className="h-5 w-5 text-gray-400" />
@@ -150,7 +129,6 @@ const RegisterPage = () => {
                 id="password"
                 name="password"
                 type="password"
-                autoComplete="new-password"
                 placeholder="Password"
                 className={`appearance-none rounded-md relative block w-full px-3 py-2 pl-10 border ${
                   formik.touched.password && formik.errors.password
@@ -163,17 +141,12 @@ const RegisterPage = () => {
               />
             </div>
             {formik.touched.password && formik.errors.password && (
-              <p className="mt-2 text-sm text-red-600">
-                {formik.errors.password}
-              </p>
+              <p className="mt-2 text-sm text-red-600">{formik.errors.password}</p>
             )}
           </div>
 
           {/* Confirm Password Input */}
           <div>
-            <label htmlFor="confirmPassword" className="sr-only">
-              Confirm Password
-            </label>
             <div className="relative">
               <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                 <Lock className="h-5 w-5 text-gray-400" />
@@ -182,7 +155,6 @@ const RegisterPage = () => {
                 id="confirmPassword"
                 name="confirmPassword"
                 type="password"
-                autoComplete="new-password"
                 placeholder="Confirm Password"
                 className={`appearance-none rounded-md relative block w-full px-3 py-2 pl-10 border ${
                   formik.touched.confirmPassword && formik.errors.confirmPassword
@@ -195,9 +167,7 @@ const RegisterPage = () => {
               />
             </div>
             {formik.touched.confirmPassword && formik.errors.confirmPassword && (
-              <p className="mt-2 text-sm text-red-600">
-                {formik.errors.confirmPassword}
-              </p>
+              <p className="mt-2 text-sm text-red-600">{formik.errors.confirmPassword}</p>
             )}
           </div>
 
@@ -213,12 +183,7 @@ const RegisterPage = () => {
           <div className="text-center">
             <p className="mt-2 text-sm text-gray-600">
               Already have an account?{' '}
-              <a 
-                href="/login" 
-                className="font-medium text-blue-600 hover:text-blue-500"
-              >
-                Log in
-              </a>
+              <Link to="/login" className="font-medium text-blue-600 hover:text-blue-500">Login</Link>
             </p>
           </div>
         </form>
@@ -228,6 +193,3 @@ const RegisterPage = () => {
 };
 
 export default RegisterPage;
-
-
-
