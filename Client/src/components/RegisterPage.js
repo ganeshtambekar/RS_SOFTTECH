@@ -7,7 +7,7 @@ import { UserPlus, Mail, Lock, User } from 'lucide-react';
 
 const RegisterPage = () => {
   const navigate = useNavigate();
-  const BASE_URL = 'http://localhost:4000/api/register/register';
+  const BASE_URL = 'http://localhost:4000/api/admin/register';
 
   // Validation Schema
   const validationSchema = Yup.object({

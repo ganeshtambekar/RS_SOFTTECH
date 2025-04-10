@@ -7,7 +7,7 @@ const studentRoute=require('./routes/studentRoutes');
 const connectDB = require('./config/db');
 
 const createInitialAdmin = require('./config/db');
-const register=require('./routes/register');
+
 
 // Load environment variables
 dotenv.config();
@@ -26,8 +26,7 @@ app.use(cors());
 // Routes
 app.use('/api/admin', adminRoute);
 app.use('/api/student', studentRoute);
-app.use('/api/register', register);
-// Error handling middleware
+
 app.use((err, req, res, next) => {
   console.error(err.stack);
   res.status(500).json({

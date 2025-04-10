@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import routes from '../constants/routes';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Pagination, A11y } from 'swiper/modules';
 import { Star, Clock, Calendar, User, Award, ChevronRight, Mail } from 'lucide-react';
 import { motion } from 'framer-motion';
-import { toast,ToastContainer } from 'react-toastify';
+import { toast, ToastContainer } from 'react-toastify';
 
 const categories = [
   {
@@ -313,161 +313,173 @@ const reviews = [
 const Courses = () => {
   const [selectedCourse, setSelectedCourse] = useState(null);
   const [email, setEmail] = useState('');
-  const [message, setMessage] = useState("");
   const [isSubscribed, setIsSubscribed] = useState(false);
-
-
-
+  const navigate = useNavigate(); // Fixed: Added useNavigate hook
 
   const handleCourseSelect = (course) => {
     setSelectedCourse(course);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-
-
+  const handleEnrollment = (course) => {
+    // Redirect to the payment page with course information
+    navigate('/PaymentPage', { 
+      state: { 
+        courseId: course.id,
+        courseTitle: course.title,
+        coursePrice: course.price
+      } 
+    });
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    // Added: Show toast notification for better UX
+    toast.success("Successfully subscribed to course updates!");
     setIsSubscribed(true);
     setEmail("");
   };
 
-
   return (
     <div className="min-h-screen bg-gray-50 text-center">
-    {/* Header */}
-    <header className="bg-gradient-to-r from-blue-600 to-indigo-700 text-white py-8 w-full">
-  <div className="container mx-auto px-4 text-center flex flex-col items-center">
-    <motion.h1 
-      className="text-3xl font-bold mb-4"
-      initial={{ opacity: 0, y: -20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5 }}
-    >
-      Explore Our Courses
-    </motion.h1>
-    <motion.p 
-      className="text-xl max-w-2xl"
-      initial={{ opacity: 0, y: -10 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5, delay: 0.3 }}
-    >
-      Browse our curated selection of top-rated courses designed to help you gain new skills and advance your career.
-    </motion.p>
-  </div>
-</header>
-
+      {/* Toast Container for notifications */}
+      <ToastContainer position="top-right" autoClose={3000} />
+      
+      {/* Header */}
+      <header className="bg-gradient-to-r from-blue-600 to-indigo-700 text-white py-8 w-full">
+        <div className="container mx-auto px-4 text-center flex flex-col items-center">
+          <motion.h1 
+            className="text-3xl font-bold mb-4"
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+          >
+            Explore Our Courses
+          </motion.h1>
+          <motion.p 
+            className="text-xl max-w-2xl"
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.3 }}
+          >
+            Browse our curated selection of top-rated courses designed to help you gain new skills and advance your career.
+          </motion.p>
+        </div>
+      </header>
 
       {/* Course Details Component */}
       {selectedCourse && (
-  <div className="container w-full max-w-screen-lg mx-auto px-4 py-8">
-    <div className="bg-white rounded-lg shadow-md overflow-hidden flex flex-col h-full">
-      <div className="md:flex h-full">
-        {/* Course Image */}
-        <div className="md:w-1/2 h-64 md:h-auto">
-          <img 
-            src={selectedCourse.image} 
-            alt={selectedCourse.title} 
-            className="w-full h-full object-cover"
-          />
-        </div>
-
-        {/* Course Details */}
-        <div className="p-6 md:w-1/2 flex flex-col justify-between">
-          <div>
-            <h2 className="text-2xl font-bold text-gray-800 mb-2">{selectedCourse.title}</h2>
-            <div className="flex items-center mb-2">
-              <div className="flex items-center text-yellow-400">
-                {[...Array(5)].map((_, i) => (
-                  <Star 
-                    key={i} 
-                    fill={i < Math.floor(selectedCourse.ratings) ? "currentColor" : "none"} 
-                    size={16} 
-                  />
-                ))}
+        <div className="container w-full max-w-screen-lg mx-auto px-4 py-8">
+          <div className="bg-white rounded-lg shadow-md overflow-hidden flex flex-col h-full">
+            <div className="md:flex h-full">
+              {/* Course Image */}
+              <div className="md:w-1/2 h-64 md:h-auto">
+                <img 
+                  src={selectedCourse.image} 
+                  alt={selectedCourse.title} 
+                  className="w-full h-full object-cover"
+                />
               </div>
-              <span className="text-gray-600 ml-2">
-                {selectedCourse.ratings} ({selectedCourse.reviewCount} reviews)
-              </span>
+
+              {/* Course Details */}
+              <div className="p-6 md:w-1/2 flex flex-col justify-between">
+                <div>
+                  <h2 className="text-2xl font-bold text-gray-800 mb-2">{selectedCourse.title}</h2>
+                  <div className="flex items-center mb-2">
+                    <div className="flex items-center text-yellow-400">
+                      {[...Array(5)].map((_, i) => (
+                        <Star 
+                          key={i} 
+                          fill={i < Math.floor(selectedCourse.ratings) ? "currentColor" : "none"} 
+                          size={16} 
+                        />
+                      ))}
+                    </div>
+                    <span className="text-gray-600 ml-2">
+                      {selectedCourse.ratings} ({selectedCourse.reviewCount} reviews)
+                    </span>
+                  </div>
+                  <div className="flex items-center text-gray-600 mb-2">
+                    <User size={16} className="mr-1" />
+                    <span>Instructor: {selectedCourse.instructor}</span>
+                  </div>
+                  <div className="flex items-center text-gray-600 mb-2">
+                    <Clock size={16} className="mr-1" />
+                    <span>Duration: {selectedCourse.duration}</span>
+                  </div>
+                  <div className="flex items-center text-gray-600 mb-4">
+                    <Award size={16} className="mr-1" />
+                    <span>Level: {selectedCourse.level}</span>
+                  </div>
+                  <p className="text-gray-600 mb-4">{selectedCourse.description}</p>
+                </div>
+                
+                {/* Price and Enroll Button */}
+                <div className="flex items-center">
+                  <span className="text-2xl font-bold text-blue-600">${selectedCourse.price}</span>
+                  <button 
+                    onClick={() => handleEnrollment(selectedCourse)}
+                    className="ml-4 bg-blue-600 hover:bg-blue-700 text-white py-2 px-6 rounded-md transition duration-200"
+                  >
+                    Enroll Now
+                  </button>
+                </div>
+              </div>
             </div>
-            <div className="flex items-center text-gray-600 mb-2">
-              <User size={16} className="mr-1" />
-              <span>Instructor: {selectedCourse.instructor}</span>
+
+            {/* Additional Course Information */}
+            <div className="p-6 border-t border-gray-200">
+              <h3 className="text-xl font-bold mb-4">Course Syllabus</h3>
+              <ul className="space-y-2 mb-6">
+                {selectedCourse.syllabus.map((item, index) => (
+                  <li key={index} className="flex items-start">
+                    <ChevronRight size={16} className="text-blue-500 mt-1 mr-2" />
+                    <span>{item}</span>
+                  </li>
+                ))}
+              </ul>
+
+              <h3 className="text-xl font-bold mb-4">Learning Outcomes</h3>
+              <ul className="space-y-2 mb-6">
+                {selectedCourse.learningOutcomes.map((item, index) => (
+                  <li key={index} className="flex items-start">
+                    <ChevronRight size={16} className="text-blue-500 mt-1 mr-2" />
+                    <span>{item}</span>
+                  </li>
+                ))}
+              </ul>
+
+              <h3 className="text-xl font-bold mb-4">Prerequisites</h3>
+              <ul className="space-y-2 mb-6">
+                {selectedCourse.prerequisites.map((item, index) => (
+                  <li key={index} className="flex items-start">
+                    <ChevronRight size={16} className="text-blue-500 mt-1 mr-2" />
+                    <span>{item}</span>
+                  </li>
+                ))}
+              </ul>
+
+              {/* Enroll CTA */}
+              <div className="text-center mt-6">
+                <button 
+                  onClick={() => handleEnrollment(selectedCourse)}
+                  className="bg-blue-600 hover:bg-blue-700 text-white py-3 px-8 rounded-md text-lg font-medium transition duration-200"
+                >
+                  Enroll Now
+                </button>
+              </div>
             </div>
-            <div className="flex items-center text-gray-600 mb-2">
-              <Clock size={16} className="mr-1" />
-              <span>Duration: {selectedCourse.duration}</span>
-            </div>
-            <div className="flex items-center text-gray-600 mb-4">
-              <Award size={16} className="mr-1" />
-              <span>Level: {selectedCourse.level}</span>
-            </div>
-            <p className="text-gray-600 mb-4">{selectedCourse.description}</p>
           </div>
-          
-          {/* Price and Enroll Button */}
-          <div className="flex items-center">
-            <span className="text-2xl font-bold text-blue-600">${selectedCourse.price}</span>
-            <button className="ml-4 bg-blue-600 hover:bg-blue-700 text-white py-2 px-6 rounded-md transition duration-200">
-              Enroll Now
-            </button>
-          </div>
-        </div>
-      </div>
 
-      {/* Additional Course Information */}
-      <div className="p-6 border-t border-gray-200">
-        <h3 className="text-xl font-bold mb-4">Course Syllabus</h3>
-        <ul className="space-y-2 mb-6">
-          {selectedCourse.syllabus.map((item, index) => (
-            <li key={index} className="flex items-start">
-              <ChevronRight size={16} className="text-blue-500 mt-1 mr-2" />
-              <span>{item}</span>
-            </li>
-          ))}
-        </ul>
-
-        <h3 className="text-xl font-bold mb-4">Learning Outcomes</h3>
-        <ul className="space-y-2 mb-6">
-          {selectedCourse.learningOutcomes.map((item, index) => (
-            <li key={index} className="flex items-start">
-              <ChevronRight size={16} className="text-blue-500 mt-1 mr-2" />
-              <span>{item}</span>
-            </li>
-          ))}
-        </ul>
-
-        <h3 className="text-xl font-bold mb-4">Prerequisites</h3>
-        <ul className="space-y-2 mb-6">
-          {selectedCourse.prerequisites.map((item, index) => (
-            <li key={index} className="flex items-start">
-              <ChevronRight size={16} className="text-blue-500 mt-1 mr-2" />
-              <span>{item}</span>
-            </li>
-          ))}
-        </ul>
-
-        {/* Enroll CTA */}
-        <div className="text-center mt-6">
-          <button className="bg-blue-600 hover:bg-blue-700 text-white py-3 px-8 rounded-md text-lg font-medium transition duration-200">
-            Enroll Now
+          {/* Back Button */}
+          <button 
+            onClick={() => setSelectedCourse(null)} 
+            className="mt-8 text-blue-600 hover:text-blue-800 font-medium flex items-center"
+          >
+            &larr; Back to All Courses
           </button>
-          
         </div>
-      </div>
-    </div>
-
-    {/* Back Button */}
-    <button 
-      onClick={() => setSelectedCourse(null)} 
-      className="mt-8 text-blue-600 hover:text-blue-800 font-medium flex items-center"
-    >
-      &larr; Back to All Courses
-    </button>
-  </div>
-)}
-
+      )}
 
       {/* Course Listings */}
       {!selectedCourse && (
@@ -498,7 +510,7 @@ const Courses = () => {
                       <img 
                         src={course.image} 
                         alt={course.title} 
-                        className="w-full h-full object-cover"
+                        className="w-full h-48 object-cover"
                       />
                       <div className="p-5 flex-1 flex flex-col">
                         <h3 className="text-lg font-bold text-gray-800 mb-2">{course.title}</h3>
@@ -534,7 +546,7 @@ const Courses = () => {
                             onClick={() => handleCourseSelect(course)}
                             className="bg-blue-600 hover:bg-blue-700 text-white py-1 px-4 rounded-md text-sm transition duration-200"
                           >
-                            Enroll Now
+                            View Details
                           </button>
                         </div>
                       </div>
@@ -605,8 +617,11 @@ const Courses = () => {
         <div className="container mx-auto px-4 text-center">
           <h2 className="text-3xl font-bold mb-4">Ready to Start Learning?</h2>
           <p className="text-xl mb-8 max-w-2xl mx-auto">Join thousands of students already learning with us. Take the first step towards mastering new skills today.</p>
-          <button className="bg-white text-blue-600 hover:bg-gray-100 py-3 px-8 rounded-md font-bold text-lg transition duration-200 mb-8">
-            Join Now
+          <button 
+            onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+            className="bg-white text-blue-600 hover:bg-gray-100 py-3 px-8 rounded-md font-bold text-lg transition duration-200 mb-8"
+          >
+            Explore Courses
           </button>
           
           <div className="max-w-md mx-auto mt-8">
@@ -619,17 +634,14 @@ const Courses = () => {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
-  
               />
-                
-                <button 
-  type="submit"
-  className="bg-indigo-800 hover:bg-indigo-900 text-white py-2 px-6 rounded-md transition duration-200"
-  disabled={isSubscribed} // Optionally disable the button after subscription
->
-  {isSubscribed ? "Subscribed" : "Subscribe"}
-</button>
-             
+              <button 
+                type="submit"
+                className="bg-indigo-800 hover:bg-indigo-900 text-white py-2 px-6 rounded-md transition duration-200"
+                disabled={isSubscribed}
+              >
+                {isSubscribed ? "Subscribed" : "Subscribe"}
+              </button>
             </form>
           </div>
         </div>
@@ -646,48 +658,48 @@ const Courses = () => {
             <div className="mb-6 md:mb-0">
               <h4 className="text-lg font-semibold mb-4">Quick Links</h4>
               <ul className="space-y-2">
-              <li>
-  <Link 
-    to={routes.courses} 
-    className="text-gray-400 hover:text-white transition duration-200"
-    aria-label="View courses"
-  >
-    Courses
-  </Link>
-</li>
-<li>
-  <Link 
-    to="/AboutUs" 
-    className="text-gray-400 hover:text-white transition duration-200"
-    aria-label="About us"
-  >
-    About Us
-  </Link>
-</li>
-<li>
-  <Link 
-    to="/ContactPage" 
-    className="text-gray-400 hover:text-white transition duration-200"
-    aria-label="Contact us"
-  >
-    Contact
-  </Link>
-</li>
-<li>
-  <Link 
-    to="/FAQ" 
-    className="text-gray-400 hover:text-white transition duration-200"
-    aria-label="Frequently asked questions"
-  >
-    FAQ
-  </Link>
-</li>
+                <li>
+                  <Link 
+                    to={routes.courses} 
+                    className="text-gray-400 hover:text-white transition duration-200"
+                    aria-label="View courses"
+                  >
+                    Courses
+                  </Link>
+                </li>
+                <li>
+                  <Link 
+                    to="/AboutUs" 
+                    className="text-gray-400 hover:text-white transition duration-200"
+                    aria-label="About us"
+                  >
+                    About Us
+                  </Link>
+                </li>
+                <li>
+                  <Link 
+                    to="/ContactPage" 
+                    className="text-gray-400 hover:text-white transition duration-200"
+                    aria-label="Contact us"
+                  >
+                    Contact
+                  </Link>
+                </li>
+                <li>
+                  <Link 
+                    to="/FAQ" 
+                    className="text-gray-400 hover:text-white transition duration-200"
+                    aria-label="Frequently asked questions"
+                  >
+                    FAQ
+                  </Link>
+                </li>
               </ul>
             </div>
             <div>
               <h4 className="text-lg font-semibold mb-4">Contact Us</h4>
               <p className="text-gray-400 mb-2">Email: rssoftech25@gmail.com</p>
-              <p className="text-gray-400">Phone:+918698574924</p>
+              <p className="text-gray-400">Phone: +918698574924</p>
             </div>
           </div>
           <div className="mt-8 pt-6 border-t border-gray-700 text-center text-gray-400">

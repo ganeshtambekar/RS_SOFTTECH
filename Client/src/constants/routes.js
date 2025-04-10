@@ -13,7 +13,8 @@ const routes = {
     load:'/LoadingScreen',
     receipt:'/Receipt',
     dashboard:'/Dashboard',
-    lists:'/CourseList'
+    lists:'/CourseList',
+    payment:'/PaymentPage'
   };
   
   export default routes;

@@ -81,7 +81,7 @@ const ContactPage = () => {
                 <Phone className="w-6 h-6 text-blue-600" />
                 <div>
                   <h3 className="font-semibold">Phone</h3>
-                  <p className="text-gray-600">+91 9923456019</p>
+                  <p className="text-gray-600">+91 8369845188</p>
                 </div>
               </div>
 
@@ -94,7 +94,7 @@ const ContactPage = () => {
               </div>
             </div>
 
-            {/* Google Maps Embed */}
+            
             <div className="mt-8 bg-gray-200 h-64 rounded-lg overflow-hidden shadow-lg">
               <iframe
                 src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1891.6288592550488!2d73.84226487229229!3d18.517252400000007!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bc2b9def03dcfbb%3A0x426a5a51c3a72bde!2sRS%20Softtech!5e0!3m2!1smr!2sin!4v1739594187532!5m2!1smr!2sin"

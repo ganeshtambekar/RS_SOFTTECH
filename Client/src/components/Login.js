@@ -6,7 +6,7 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { LogIn, Lock, Mail, User, UserCog } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-import StudentDashboard from './StudentDashboard';
+import StudentDashboard from './admindashboard/StudentDashboard';
 
 const Login = () => {
   const navigate = useNavigate();
@@ -33,7 +33,7 @@ const Login = () => {
         setError('');
         // const endpoint = userType === 'admin' ? '/login' : '/student/login';
         // const response = await axios.post(`${config.API_URL}/endpoint`, values);
-        const endpoint = userType === 'admin' ? '/admin/login' : '/student/login';
+        const endpoint = userType === 'admin' ? '/admin/login' : '/admin/studentLogin';
         const response = await axios.post(`${config.API_URL}${endpoint}`, values);
 
 
@@ -141,7 +141,7 @@ const Login = () => {
         {userType === 'student' && (
           <div className="text-center mt-4">
           <button
-  onClick={() => navigate('/login', { state: { successMessage: 'Registration successful! Please login.' } })}
+  onClick={() => navigate('/RegisterPage', { state: { successMessage: 'Registration successful! Please login.' } })}
   className="font-medium text-blue-600 hover:text-blue-500"
 >
   Don't have an account? Sign up

@@ -15,12 +15,13 @@ import ContactPage from './components/ContactPage';
 import Login from './components/Login';
 import RegisterPage from './components/RegisterPage';
 import AdminDashboard from './components/admindashboard/AdminDashboard';
-import StudentDashboard from './components/StudentDashboard';
+import StudentDashboard from './components/admindashboard/StudentDashboard';
 import AboutUs from './components/AboutUs';
 import LoadingScreen from './components/LoadingScreen';
 import CourseList from './components/CourseList';
 import Dashboard from './components/Dashboard';
 import Receipt from './components/Receipt';
+import PaymentPage from './components/PaymentPage';
 const App = () => (
   <HelmetProvider>
   <Router>
@@ -39,7 +40,7 @@ const App = () => (
       <Route path={routes.lists}element={<CourseList />} />
       <Route path={routes.receipt} element={<Receipt/>} />
       <Route path={routes.dashboard}element={<Dashboard />} />
-      {/* <Route path={routes.load} element={<LoadingScreen/>}/> */}
+       <Route path={routes.payment} element={<PaymentPage/>}/>
      
     </Routes>
   </Router>

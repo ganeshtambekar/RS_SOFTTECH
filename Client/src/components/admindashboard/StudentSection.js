@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import config from '../../config/config';
-import { Plus, Trash, BookOpen } from 'lucide-react';
+import { Plus, Trash, BookOpen, Printer } from 'lucide-react';
 import { Card, CardHeader, CardTitle, CardContent } from '../ui/card';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '../ui/Dialog';
 import { Button } from '../ui/Button';
@@ -22,6 +22,7 @@ const StudentSection = () => {
   const [error, setError] = useState(null);
   const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
   const [isTestSeriesDialogOpen, setIsTestSeriesDialogOpen] = useState(false);
+  const [isPrintDialogOpen, setIsPrintDialogOpen] = useState(false);
   const [selectedStudent, setSelectedStudent] = useState(null);
   const [formData, setFormData] = useState({
     name: '',
@@ -35,6 +36,7 @@ const StudentSection = () => {
     marks: ''
   });
   const [courseInput, setCourseInput] = useState('');
+  const printableContentRef = useRef(null);
 
   useEffect(() => {
     fetchData();
@@ -157,11 +159,78 @@ const StudentSection = () => {
     const courseNames = inputText.split(',').map(name => name.trim());
     const courseIds = courseNames.map(name => {
       const course = courses.find(c => 
-        c.title.toLowerCase() === name.toLowerCase()
+        c.title.toLowerCase().trim() === name.toLowerCase().trim()
       );
       return course?._id;
     }).filter(id => id);
     setFormData(prev => ({ ...prev, enrolledCourses: courseIds }));
+  };
+
+  const handlePrint = () => {
+    setIsPrintDialogOpen(false);
+    const printWindow = window.open('', '_blank');
+    
+    const printContent = printableContentRef.current.innerHTML;
+    
+    printWindow.document.write(`
+      <html>
+        <head>
+          <title>Student List</title>
+          <style>
+            body {
+              font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+              padding: 20px;
+            }
+            table {
+              width: 100%;
+              border-collapse: collapse;
+              margin-top: 20px;
+            }
+            th, td {
+              border: 1px solid #ddd;
+              padding: 8px 12px;
+              text-align: left;
+            }
+            th {
+              background-color: #f2f2f2;
+              font-weight: bold;
+            }
+            .header {
+              text-align: center;
+              margin-bottom: 20px;
+            }
+            .fees-paid {
+              color: green;
+              font-weight: bold;
+            }
+            .fees-pending {
+              color: red;
+              font-weight: bold;
+            }
+            @media print {
+              .no-print {
+                display: none;
+              }
+            }
+          </style>
+        </head>
+        <body>
+          <div class="header">
+            <h1>Student List</h1>
+            <p>Generated on ${new Date().toLocaleDateString()} at ${new Date().toLocaleTimeString()}</p>
+          </div>
+          <div>
+            ${printContent}
+          </div>
+          <div class="no-print" style="margin-top: 30px; text-align: center;">
+            <button onclick="window.print()">Print</button>
+            <button onclick="window.close()">Close</button>
+          </div>
+        </body>
+      </html>
+    `);
+    
+    printWindow.document.close();
   };
 
   const renderCourseList = (student) => {
@@ -176,12 +245,16 @@ const StudentSection = () => {
         </div>
 
         <div className="text-sm text-gray-700 space-y-1">
-          {courseTitles.map((title, index) => (
-            <div key={index}>{title}</div>
-          ))}
-          {courseTitles.length === 0 && 'No courses enrolled'}
+          {student.enrolledCourses?.map((courseId) => {
+            const course = courses.find(c => c._id === courseId);
+            return (
+              <div key={courseId} className="font-medium">
+                {courseId.title}
+              </div>
+            );
+          })}
+          {student.enrolledCourses?.length === 0 && 'No courses enrolled'}
         </div>
-
         <div className="flex items-center justify-between">
           <span className="text-sm">Fees Status:</span>
           <Badge variant={student.feesPaid ? 'default' : 'destructive'}>
@@ -206,7 +279,7 @@ const StudentSection = () => {
 
   useEffect(() => {
     setError(null);
-  }, [isAddDialogOpen, isTestSeriesDialogOpen]);
+  }, [isAddDialogOpen, isTestSeriesDialogOpen, isPrintDialogOpen]);
 
   if (loading) return (
     <div className="p-6 flex justify-center items-center">
@@ -214,7 +287,7 @@ const StudentSection = () => {
     </div>
   );
 
-  if (error && !isAddDialogOpen && !isTestSeriesDialogOpen) return (
+  if (error && !isAddDialogOpen && !isTestSeriesDialogOpen && !isPrintDialogOpen) return (
     <div className="p-6 text-red-600 bg-red-50 rounded-md border border-red-200">
       {error}
     </div>
@@ -223,10 +296,25 @@ const StudentSection = () => {
   return (
     <div className="p-6">
       <div className="flex justify-between items-center mb-6">
-        <h2 className="text-2xl font-bold">Student Management</h2>
-        <Button onClick={() => setIsAddDialogOpen(true)}>
-          <Plus className="mr-2 h-4 w-4" /> Add Student
-        </Button>
+        <h2 className="text-2xl font-bold text-center text-gray-800 mb-4 border-b-2 border-gray-300 inline-block">Enrolled Students</h2>
+
+        <div className="flex items-center space-x-3">
+  <Button 
+    onClick={() => setIsPrintDialogOpen(true)} 
+    variant="outline" 
+    className="flex items-center px-4 py-2 bg-white border-blue-200 text-blue-600 hover:bg-blue-50 transition-colors shadow-sm"
+  >
+    <Printer className="mr-2 h-4 w-4" /> 
+    <span>Print List</span>
+  </Button>
+  <Button 
+    onClick={() => setIsAddDialogOpen(true)}
+    className="flex items-center px-4 py-2 bg-blue-600 text-white hover:bg-blue-700 transition-colors shadow-sm"
+  >
+    <Plus className="mr-2 h-4 w-4" /> 
+    <span>Add Student</span>
+  </Button>
+</div>
       </div>
 
       {students.length === 0 ? (
@@ -315,7 +403,7 @@ const StudentSection = () => {
             <FormField label="Enroll in Courses *">
               <Input
                 type="text"
-                placeholder="Enter course names separated by commas"
+                placeholder="Enter exact course names (e.g., JAVA, CPP)"
                 value={courseInput}
                 onChange={e => handleCourseInput(e.target.value)}
               />
@@ -323,12 +411,11 @@ const StudentSection = () => {
                 Available courses: {courses.map(c => c.title).join(', ')}
                 {formData.enrolledCourses.length !== courseInput.split(',').filter(n => n.trim()).length && (
                   <div className="text-red-500 mt-1">
-                    Warning: Some entered courses don't exist
+                    Warning: Invalid courses detected
                   </div>
                 )}
               </div>
             </FormField>
-
             <FormField label="Fee Status">
               <div className="flex items-center space-x-2">
                 <input
@@ -355,7 +442,7 @@ const StudentSection = () => {
           </DialogFooter>
         </DialogContent>
       </Dialog>
-
+      
       <Dialog open={isTestSeriesDialogOpen} onOpenChange={setIsTestSeriesDialogOpen}>
         <DialogContent>
           <DialogHeader>
@@ -392,6 +479,99 @@ const StudentSection = () => {
               Cancel
             </Button>
             <Button onClick={handleAddTestSeries}>Add Marks</Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      <Dialog open={isPrintDialogOpen} onOpenChange={setIsPrintDialogOpen}>
+        <DialogContent className="max-w-4xl">
+          <DialogHeader>
+            <DialogTitle>Print Student List</DialogTitle>
+          </DialogHeader>
+
+          <div className="hidden">
+            <div ref={printableContentRef}>
+              <table className="min-w-full border-collapse">
+                <thead>
+                  <tr>
+                    <th className="border border-gray-300 p-2">#</th>
+                    <th className="border border-gray-300 p-2">Student Name</th>
+                    <th className="border border-gray-300 p-2">Email</th>
+                    <th className="border border-gray-300 p-2">Fees Status</th>
+                    <th className="border border-gray-300 p-2">Enrolled Courses</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {students.map((student, index) => (
+                    <tr key={student._id}>
+                      <td className="border border-gray-300 p-2">{index + 1}</td>
+                      <td className="border border-gray-300 p-2">{student.name}</td>
+                      <td className="border border-gray-300 p-2">{student.email}</td>
+                      <td className="border border-gray-300 p-2">
+                        <span className={student.feesPaid ? "fees-paid" : "fees-pending"}>
+                          {student.feesPaid ? "Paid" : "Pending"}
+                        </span>
+                      </td>
+                      <td className="border border-gray-300 p-2">
+  {student.enrolledCourses?.length > 0 ? (
+    student.enrolledCourses.map((courseId) => {
+      const course = courses.find(c => c._id === courseId);
+      return courseId.title;
+    }).join(", ")
+  ) : (
+    "No courses enrolled"
+  )}
+</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div className="max-h-96 overflow-y-auto">
+            <table className="min-w-full border-collapse">
+              <thead className="sticky top-0 bg-white">
+                <tr>
+                  <th className="border border-gray-300 p-2">#</th>
+                  <th className="border border-gray-300 p-2">Student Name</th>
+                  <th className="border border-gray-300 p-2">Fees Status</th>
+                  <th className="border border-gray-300 p-2">Enrolled Courses</th>
+                </tr>
+              </thead>
+              <tbody>
+                {students.map((student, index) => (
+                  <tr key={student._id}>
+                    <td className="border border-gray-300 p-2">{index + 1}</td>
+                    <td className="border border-gray-300 p-2">{student.name}</td>
+                    <td className="border border-gray-300 p-2">
+                      <span className={`font-medium ${student.feesPaid ? "text-green-600" : "text-red-600"}`}>
+                        {student.feesPaid ? "Paid" : "Pending"}
+                      </span>
+                    </td>
+                    <td className="border border-gray-300 p-2">
+  {student.enrolledCourses?.length > 0 ? (
+    student.enrolledCourses.map((courseId) => {
+      const course = courses.find(c => c._id === courseId);
+      return courseId.title || 'Unknown Course';
+    }).join(", ")
+  ) : (
+    "No courses enrolled"
+  )}
+</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setIsPrintDialogOpen(false)}>
+              Cancel
+            </Button>
+            <Button onClick={handlePrint}>
+              <Printer className="mr-2 h-4 w-4" /> Print
+            </Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>

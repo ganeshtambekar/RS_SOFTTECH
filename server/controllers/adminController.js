@@ -52,6 +52,53 @@ exports.loginAdmin = async (req, res) => {
   }
 };
 
+exports.loginStudent = async (req, res) => {
+  try {
+    const { email, password } = req.body;
+
+    // Validate email & password
+    if (!email || !password) {
+      return res.status(400).json({ 
+        success: false,
+        error: 'Please provide an email and password' 
+      });
+    }
+
+    // Check for student
+    const student = await Student.findOne({ email }).select('+password');
+
+    if (!student) {
+      return res.status(401).json({ 
+        success: false,
+        error: 'Invalid credentials' 
+      });
+    }
+
+    // Check if password matches
+    const isMatch = await student.matchPassword(password);
+
+    if (!isMatch) {
+      return res.status(401).json({ 
+        success: false,
+        error: 'Invalid credentials' 
+      });
+    }
+
+    // Create token
+    const token = student.getSignedJwtToken();
+
+    res.status(200).json({
+      success: true,
+      token
+    });
+  } catch (err) {
+    res.status(500).json({
+      success: false,
+      error: err.message
+    });
+  }
+};
+
 // @desc    Add a new staff member
 // @route   POST /api/admin/staff
 // @access  Private/Admin
@@ -73,7 +120,7 @@ exports.addStaff = async (req, res) => {
     });
   } catch (err) {
     if (err.code === 11000) {
-      // Duplicate key error
+      
       return res.status(400).json({
         success: false,
         error: 'Staff with this email already exists'
@@ -120,13 +167,6 @@ exports.deleteStudent = async (req, res) => {
   }
 };
 
-
-
-
-
-// @desc    Add a new student
-// @route   POST /api/admin/student
-// @access  Private/Admin
 exports.addStudent = async (req, res) => {
   try {
     const { name, email, password, enrolledCourses, feesPaid } = req.body;
@@ -176,7 +216,7 @@ exports.addCourse = async (req, res) => {
     res.status(201).json({
       success: true,
       data: course
-    });
+    })
   } catch (err) {
     if (err.code === 11000) {
       // Duplicate key error
@@ -244,6 +284,7 @@ exports.addTestSeries = async (req, res) => {
     });
   }
 };
+
 
 // @desc    Get all students
 // @route   GET /api/admin/students
@@ -338,3 +379,28 @@ exports.getStaff = async (req, res) => {
     });
   }
 };
+
+exports.deleteStaff = async (req, res) => {
+  try {
+    const staff = await Staff.findByIdAndDelete(req.params.id);
+
+    if (!staff) {
+      return res.status(404).json({
+        success: false,
+        error: 'No staff member found with that ID'
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      data: {}
+    });
+
+  } catch (err) {
+    res.status(500).json({
+      success: false,
+      error: err.message
+    });
+  }
+};
+
