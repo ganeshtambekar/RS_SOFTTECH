@@ -38,6 +38,19 @@ const RegisterPage = () => {
       confirmPassword: ''
     },
     validationSchema: validationSchema,
+    // onSubmit: async (values, { resetForm }) => {
+    //   try {
+    //     const response = await axios.post(BASE_URL, values);
+    //     console.log('Registration successful:', response.data);
+    //     resetForm();
+    //     navigate('/login', { state: { successMessage: 'Registration successful! Please login.' } });
+    //   } catch (error) {
+    //     console.error('Registration failed:', error);
+    //     if (error.response) {
+    //       console.log('Error data:', error.response.data);
+    //     }
+    //   }
+    // }
     onSubmit: async (values, { resetForm }) => {
       try {
         const response = await axios.post(BASE_URL, values);

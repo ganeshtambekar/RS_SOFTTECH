@@ -40,7 +40,7 @@ const App = () => (
       <Route path={routes.lists}element={<CourseList />} />
       <Route path={routes.receipt} element={<Receipt/>} />
       <Route path={routes.dashboard}element={<Dashboard />} />
-       <Route path={routes.payment} element={<PaymentPage/>}/>
+      <Route path={routes.payment} element={<PaymentPage/>}/>
      
     </Routes>
   </Router>

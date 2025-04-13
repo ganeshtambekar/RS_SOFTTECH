@@ -7,6 +7,7 @@ import { Star, Clock, Calendar, User, Award, ChevronRight, Mail } from 'lucide-r
 import { motion } from 'framer-motion';
 import { toast, ToastContainer } from 'react-toastify';
 
+
 const categories = [
   {
     id: 1,
@@ -158,7 +159,7 @@ const categories = [
         id: 203,
         title: "SQL for Data Science",
         instructor: "Jennifer Lee",
-        price: 39.99,
+        price: 1,
         ratings: 4.6,
         reviewCount: 156,
         description: "Learn SQL for data analysis and database management.",
@@ -322,24 +323,24 @@ const Courses = () => {
   };
 
   const handleEnrollment = (course) => {
-    // Redirect to the payment page with course information
-    navigate('/PaymentPage', { 
-      state: { 
+    navigate('/PaymentPage', {  
+      state: {
         courseId: course.id,
         courseTitle: course.title,
         coursePrice: course.price
-      } 
+      }
     });
   };
+  
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Added: Show toast notification for better UX
     toast.success("Successfully subscribed to course updates!");
     setIsSubscribed(true);
     setEmail("");
   };
 
+  
   return (
     <div className="min-h-screen bg-gray-50 text-center">
       {/* Toast Container for notifications */}
@@ -541,7 +542,7 @@ const Courses = () => {
                           </span>
                         </div>
                         <div className="flex items-center justify-between">
-                          <span className="text-lg font-bold text-blue-600">${course.price}</span>
+                          <span className="text-lg font-bold text-blue-600">₹{course.price}</span>
                           <button 
                             onClick={() => handleCourseSelect(course)}
                             className="bg-blue-600 hover:bg-blue-700 text-white py-1 px-4 rounded-md text-sm transition duration-200"
@@ -612,7 +613,7 @@ const Courses = () => {
         </div>
       </div>
 
-      {/* Call to Action */}
+     
       <div className="bg-gradient-to-r from-blue-600 to-indigo-700 text-white py-16">
         <div className="container mx-auto px-4 text-center">
           <h2 className="text-3xl font-bold mb-4">Ready to Start Learning?</h2>
