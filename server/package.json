@@ -4,7 +4,7 @@
   "description": "",
   "main": "server.js",
   "engines": {
-    "node": "v22.13.1"
+    "node": ">=v22.13.1"
   },
   "scripts": {
     "dev": "nodemon index.js",
