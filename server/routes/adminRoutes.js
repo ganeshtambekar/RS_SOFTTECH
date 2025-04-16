@@ -32,7 +32,7 @@ router.delete('/course/:id',protect,authorize('admin'), deleteCourse);
 router.delete('/students/:id',protect,authorize('admin'), deleteStudent);
 router.delete('/staff/:id',protect,authorize('admin'), deleteStaff);
 router.post('/test-series/:studentId', protect, authorize('admin'), addTestSeries);
-router.post('/register',protect, authorize('admin'),registerStudent)
+router.post('/register',registerStudent)
 
 router.get('/students', protect, authorize('admin'), getStudents);
 router.get('/courses', protect, authorize('admin'), getCourses);

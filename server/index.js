@@ -7,6 +7,7 @@ const adminRoute = require('./routes/adminRoutes');
 const studentRoute = require('./routes/studentRoutes');
 const paymentRoute = require('./routes/paymentRoute');
 const emailroute=require('./routes/email');
+const corporateemail=require('./routes/corporateemail');
 
 const connectDB = require('./config/db');
 // const createInitialAdmin = require('./config/db');
@@ -29,7 +30,8 @@ app.use(cors());
 app.use('/api/admin', adminRoute);
 app.use('/api/student', studentRoute);
 app.use('/api/payment', paymentRoute);
-app.use('/api/',emailroute);
+app.use('/api/email',emailroute);
+app.use('/api/emailcorpo', corporateemail); 
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 

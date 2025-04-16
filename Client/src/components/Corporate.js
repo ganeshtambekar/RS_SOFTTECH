@@ -1,7 +1,86 @@
-import React, { useRef } from 'react';
 import { Building2, Users, Target, Briefcase, Send } from 'lucide-react';
+import React, { useRef, useState } from 'react';
+import axios from 'axios';
+import { toast } from 'react-toastify'; // Make sure you have react-toastify installed
+import config from "../config/config"; // Adjust the path to your actual config file
 
 const Corporate = () => {
+  // Initialize all form fields with empty strings to ensure they're controlled from the start
+  const [formData, setFormData] = useState({
+    company: '',
+    contact: '',
+    email: '',
+    message: ''
+  });
+  
+  // Add state for form submission status
+  const [submitStatus, setSubmitStatus] = useState({
+    submitted: false,
+    success: false,
+    message: ''
+  });
+  
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prevData => ({
+      ...prevData,
+      [name]: value
+    }));
+  };
+  
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    
+    // Reset status before submission
+    setSubmitStatus({
+      submitted: true,
+      success: false,
+      message: 'Sending your request...'
+    });
+  
+    try {
+      const res = await axios.post(`${config.API_URL}/emailcorpo`, formData);
+      if (res.data.success) {
+        // Set success status
+        setSubmitStatus({
+          submitted: true,
+          success: true,
+          message: 'Email sent successfully! We will get back to you as soon as possible.'
+        });
+        
+        // Show toast notification
+        toast.success("Email sent successfully! We will get back to you soon.");
+        
+        // Reset form with empty strings
+        setFormData({
+          company: '',
+          contact: '',
+          email: '',
+          message: ''
+        });
+        
+        // Clear success message after 5 seconds
+        setTimeout(() => {
+          setSubmitStatus({
+            submitted: false,
+            success: false,
+            message: ''
+          });
+        }, 5000);
+      }
+    } catch (err) {
+      // Set error status
+      setSubmitStatus({
+        submitted: true,
+        success: false,
+        message: 'Failed to send email. Please try again later.'
+      });
+      
+      toast.error("Failed to send email. Please try again later.");
+      console.error(err);
+    }
+  };
+
   const contactFormRef = useRef(null);
 
   const scrollToForm = () => {
@@ -118,51 +197,82 @@ const Corporate = () => {
           <div className="max-w-2xl mx-auto">
             <h2 className="text-3xl font-bold text-center mb-12">Get in Touch</h2>
             <div className="bg-white rounded-lg shadow-lg p-8">
-              <form className="space-y-6">
+              {/* Success message display */}
+              {submitStatus.submitted && (
+                <div className={`mb-6 p-4 rounded-lg ${submitStatus.success ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}`}>
+                  <p className="font-medium">{submitStatus.message}</p>
+                  {submitStatus.success && (
+                    <p className="mt-2 text-sm">Our team will review your requirements and contact you shortly.</p>
+                  )}
+                </div>
+              )}
+              
+              <form className="space-y-6" onSubmit={handleSubmit}>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                    <label htmlFor="company" className="block text-sm font-medium text-gray-700 mb-2">
                       Company Name
                     </label>
                     <input
+                      id="company"
                       type="text"
+                      name="company"
+                      value={formData.company}
+                      onChange={handleChange}
                       className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                      required
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                    <label htmlFor="contact" className="block text-sm font-medium text-gray-700 mb-2">
                       Contact Person
                     </label>
                     <input
+                      id="contact"
                       type="text"
+                      name="contact"
+                      value={formData.contact}
+                      onChange={handleChange}
                       className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                      required
                     />
                   </div>
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
                     Email
                   </label>
                   <input
+                    id="email"
                     type="email"
+                    name="email"
+                    value={formData.email}
+                    onChange={handleChange}
                     className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                    required
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-2">
                     Training Requirements
                   </label>
                   <textarea
+                    id="message"
+                    name="message"
+                    value={formData.message}
+                    onChange={handleChange}
                     rows={4}
                     className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                    required
                   ></textarea>
                 </div>
                 <button
                   type="submit"
                   className="w-full bg-blue-600 text-white py-3 rounded-lg font-semibold hover:bg-blue-700 transition-colors flex items-center justify-center"
+                  disabled={submitStatus.submitted && submitStatus.success}
                 >
                   <Send className="w-5 h-5 mr-2" />
-                  Submit Request
+                  {submitStatus.submitted && submitStatus.success ? 'Request Sent' : 'Submit Request'}
                 </button>
               </form>
             </div>

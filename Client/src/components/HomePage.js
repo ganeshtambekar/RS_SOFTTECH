@@ -18,7 +18,7 @@ const HomePage = () => {
     {
       name: "mark zuckerberg",
       role: "Software Developer",
-      content: "The training at RS Softtech helped me transition into a tech career successfully.",
+      content: "The training at RS SOFTTECS helped me transition into a tech career successfully.",
       company: "Tech Corp",
       image: "/mark.png" // Replace with the correct image path
     },

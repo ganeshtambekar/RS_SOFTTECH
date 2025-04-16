@@ -31,7 +31,7 @@ const ContactPage = () => {
     setStatus({ type: "", message: "" });
 
     try {
-      const response = await axios.post(`${config.API_URL}${'/email'}`, formData, {
+      const response = await axios.post(`${config.API_URL}${'/email/email'}`, formData, {
         headers: { "Content-Type": "application/json" },
       });
 
